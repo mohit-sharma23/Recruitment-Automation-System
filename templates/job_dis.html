@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/landingPage.css" rel="stylesheet">
+
+    <title>Job_Discription</title>
+</head>
+
+<body>
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <span>JOB DISCRIPTION</span>
+                <h2>JOB DISCRIPTION</h2>
+            </div>
+            <div class="php-email-form">
+                <div>{{job_details.job_title}}</div>
+                <br>
+                <div>ABOUT THE WORK</div>
+                <div>
+                   {{job_details.job_discription}}
+                </div>
+                <br>
+                <div>WHO CAN APPLY</div>
+                <div>
+                    {{job_details.applicable}}
+                </div>
+                <br>
+                <div>SKILLS</div>
+                <div>
+                    {{job_details.skills}}
+                </div>
+                <div>Number of openings</div>
+                <div>{{job_details.no_of_openings}}</div>
+                <div class="text-center"><a href="{% url 'test_page' pk %}" class="btn btn-primary">Take Test</a>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+</body>
+
+</html>
