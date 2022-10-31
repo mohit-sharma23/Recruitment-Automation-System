@@ -23,12 +23,16 @@ class Job_Profiles(models.Model):
     job_info=models.TextField()
     salary=models.IntegerField()
 
+    salary=models.CharField(max_length=100)
+    condi_tion=models.CharField(max_length=100)
+    no_of_vacancies=models.CharField(max_length=100)
+
     @property
     def get_instance(self):
         return self
 
     def __str__(self):
-        return self.user.companyuserid
+        return self.profile_name
 
    
 
