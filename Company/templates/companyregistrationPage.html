@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../static/css/landingPage.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/registrationPage.css">
+  <link href="../static/css/style.css" rel="stylesheet">
+
+  <title>Registration Page</title>
+</head>
+
+<body>
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="landingpage.html">ARS</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="static/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="candidate_login">Candidate</a></li>
+          <li><a class="nav-link scrollto" href="candidate_login">Company</a></li>
+          <li><a class="nav-link scrollto" href="#services">Jobs</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="getstarted scrollto" href="#about">Admin</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+
+  <section class="registration_form">
+    <div class="title">
+      Registration Form
+    </div>
+    <form class="row g-3" action="company_registration" method="POST">
+      {% csrf_token %}
+        <!-- {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Alert!</strong> {{ message }}.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %} -->
+
+        <div class="col-md-6">
+          <label for="cname" class="form-label">Company Name</label>
+          <input type="text" name="cname" class="form-control" id="companyname">
+        </div>
+        <div class="col-md-6">
+          <label for="lname" class="form-label">Company contact no</label>
+          <input type="text" name="mobileno" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+          <label for="inputEmail4" class="form-label">Company Email</label>
+          <input type="email" name="email" class="form-control" id="inputEmail4">
+        </div>
+        <div class="col-md-12">
+          <label for="id" class="form-label">Companyuserid</label>
+          <input type="text" name="userid" class="form-control" id="Companyuserid">
+        </div>
+        <div class="col-md-6">
+          <label for="state" class="form-label">State</label>
+          <select id="state" class="form-control" name="state"> 
+            <option value="">--Choose option--</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujraat">Gujraat</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Delhi">Uttar Pradesh</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="city1" class="form-label">City</label>
+          <select id="city" class="form-control" name="city"> 
+           <option value="america">--Choose option--</option> 
+            <option value="mumbai">Mumbai</option>
+            <option value="nagpur">Nagpur</option>
+            <option value="bangluru">Bangluru</option>
+            <option value="noida">Noida</option>
+            <option value="pune">Pune</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="inputState" class="form-label">Password</label>
+          <input type="password" name="pass1" class="form-control" id="inputPassword4">
+        </div>
+
+        <div class="col-md-6">
+          <label for="inputState" class="form-label">Confirm Password</label>
+          <input type="password" name="pass2" class="form-control" id="inputPassword4">
+        </div>
+        <!-- <div class="col-md-6">
+          <label for="inputState" class="form-label">Confirm Password</label>
+          <input type="password" name="pass2" class="form-control" id="inputPassword4">
+        </div> -->
+        <div class="col-12">
+          <button type="submit" class="btn">Sign in</button>
+        </div>
+
+        <div class="login">
+          <p>Already have account? <a href="company">login</a> </p>
+        </div>
+    </form>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
+
