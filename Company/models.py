@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Companies(models.Model):
-    
+
     company_name=models.CharField(max_length=100)
     company_contact_no=models.CharField(max_length=100)
     company_email=models.CharField(max_length=100)
@@ -16,10 +16,12 @@ class Companies(models.Model):
     pass1=models.CharField(max_length=10,default="")
     pass2=models.CharField(max_length=10,default="")
     
-        
+class Job_Profiles(models.Model):
 
-
-
+    profile_name=models.CharField(max_length=100)
+    company_id=models.ForeignKey("Companies",on_delete=models.CASCADE)
+    job_info=models.TextField()
+    salary=models.IntegerField()
 
     @property
     def get_instance(self):
