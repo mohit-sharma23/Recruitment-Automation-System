@@ -59,4 +59,4 @@ def form(request):
 
 
 def can_exam(request):
-    return render(request,'canditest.html')
+    return render(request,'exams/canditest.html')
