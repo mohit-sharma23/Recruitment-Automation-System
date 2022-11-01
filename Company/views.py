@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
-from Company.models import Companies
+from Company.models import Companies,Job_Profiles
 
 # Create your views here.
 
@@ -45,10 +45,17 @@ def company_registration(request):
 
     return render(request,'companyregistrationPage.html')
 
+<<<<<<< HEAD
 
 
 def ADD(request):
   
+=======
+def ADD(request):
+  
+
+
+>>>>>>> 4a48130844a7f9b35cd83461b1469aa230818c1e
     if request.method=='POST':
         job_role=request.POST.get('jobrole')
         job_des=request.POST.get('jobdes')
@@ -58,7 +65,11 @@ def ADD(request):
         data=Job_Profiles(profile_name=job_role,job_info=job_des,no_of_vacancies=vacancies)
         data.save()
         return redirect('add')
+<<<<<<< HEAD
     info=Job_Profiles.objects.values('Profile_name','job_info','no_of_vacancies')
+=======
+    info=Job_Profiles.objects.values('profile_name','job_info','no_of_vacancies')
+>>>>>>> 4a48130844a7f9b35cd83461b1469aa230818c1e
     print(info)
     
       
