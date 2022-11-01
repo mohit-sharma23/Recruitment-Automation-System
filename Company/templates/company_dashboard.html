@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/Recruitment-Automation-System/Company/static/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -16,7 +16,7 @@
 
     <section id="menu">
         <div class="logo">
-        <img src="/Recruitment-Automation-System/Company/static/apple-touch-icon.png" alt="">
+        <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
         <h2>Technobit</h2>
     </div>
 
@@ -32,8 +32,9 @@
 
     </div>
     </section>
-
     <section id="header">
+        <h1>{{user.username}}</h1>
+
         <div class="navigation">
             <div class="n1">
                 <div class="search">
@@ -47,7 +48,7 @@
 
             <div class="profile">
                 <i class="far fa-bell"></i>
-                <img src="/Recruitment-Automation-System/Company/static/apple-touch-icon.png" alt="">
+                <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
             </div>
         </div>
         
@@ -150,7 +151,7 @@
         <div class="card ml-5 mt-5 d-flex"  style="width: 18rem;">
             <div class="card-body">
                 <div class="icon"><i class="bx bxl-redux"></i></div>
-              <h5 class="card-title">{{i.Profile_name}}</h5>
+              <h5 class="card-title">{{i.profile_name}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
               <p class="card-text">{{i.job_info}}</p>
               <a href="#" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>

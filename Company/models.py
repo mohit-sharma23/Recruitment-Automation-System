@@ -21,7 +21,9 @@ class Job_Profiles(models.Model):
     profile_name=models.CharField(max_length=100)
     company_id=models.ForeignKey("Companies",on_delete=models.CASCADE)
     job_info=models.TextField()
-    salary=models.IntegerField()
+    salary=models.CharField(max_length=100)
+    condi_tion=models.CharField(max_length=100)
+    no_of_vacancies=models.CharField(max_length=100)
 
     @property
     def get_instance(self):

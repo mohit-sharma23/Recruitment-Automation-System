@@ -7,8 +7,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('exams.urls')),
     path('',include('Company.urls')),
+    path('',include('exams.urls')),
+
     
     # path('',include('candidates.urls')),
     # path('',views.landingPage,name="landingpage"),
