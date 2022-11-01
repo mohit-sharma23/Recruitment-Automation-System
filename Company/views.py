@@ -1,11 +1,12 @@
 from email import message
+from Company.models import Job_Profiles, Companies
 from django.contrib import messages 
 
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
-from Company.models import Companies
+from Company.models import Companies,Job_Profiles
 
 # Create your views here.
 
@@ -43,3 +44,43 @@ def company_registration(request):
         return redirect('company_registration')
 
     return render(request,'companyregistrationPage.html')
+
+<<<<<<< HEAD
+
+
+def ADD(request):
+  
+=======
+def ADD(request):
+  
+
+
+>>>>>>> 4a48130844a7f9b35cd83461b1469aa230818c1e
+    if request.method=='POST':
+        job_role=request.POST.get('jobrole')
+        job_des=request.POST.get('jobdes')
+        vacancies=request.POST.get('vacancies')
+
+
+        data=Job_Profiles(profile_name=job_role,job_info=job_des,no_of_vacancies=vacancies)
+        data.save()
+        return redirect('add')
+<<<<<<< HEAD
+    info=Job_Profiles.objects.values('Profile_name','job_info','no_of_vacancies')
+=======
+    info=Job_Profiles.objects.values('profile_name','job_info','no_of_vacancies')
+>>>>>>> 4a48130844a7f9b35cd83461b1469aa230818c1e
+    print(info)
+    
+      
+    return render(request,'company_dashboard.html',{'company_info':info})
+
+def delete(request,id):
+    if request.method=='POST':
+        role=Job_Profiles.objects.get(pk=id)
+        role.delete()
+        return redirect('add')
+
+
+
+    return render(request,'company_dashboard.html')
