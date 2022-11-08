@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,14 +27,14 @@
         <li><i class="fa-regular fa-chart-line"></i><a href="#">Tables</a></li>
         <li><i class="fa-regular fa-chart-line"></i><a href="#">Forms</a></li>
         <li><i class="fa-regular fa-chart-line"></i><a href="#">Candidate</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Test</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'login' %}">Test</a></li>
         <li><i class="fa-regular fa-chart-line"></i><a href="#">Settings</a></li>
 
 
     </div>
     </section>
     <section id="header">
-        <h1>{{user.username}}</h1>
+       
 
         <div class="navigation">
             <div class="n1">
@@ -48,10 +49,12 @@
 
             <div class="profile">
                 <i class="far fa-bell"></i>
+                <a class="btn btn-danger btn-sm mr-3" href="/signOut/">Log Out</a>
+                <h4 class="mr-5">{{user.username}}</h4>
                 <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
             </div>
         </div>
-        
+       
         <h3 class="i-name">Dashboard</h3>
 
         <div class="boxs">
@@ -119,6 +122,10 @@
                 <input type="text" name="jobdes" class="form-control" id=""  placeholder="Please Enter Job description">
             </div>
             <div class="form-group">
+                <label for="exampleInputEmail1">Job description</label>
+                <input type="text" name="skills" class="form-control" id=""  placeholder="Please Enter required skills">
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">No of Vacancies</label>
                 <input type="text" name="vacancies" class="form-control" id="#"  placeholder="Please Enter Vacancies">
             </div>
@@ -154,7 +161,7 @@
               <h5 class="card-title">{{i.profile_name}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
               <p class="card-text">{{i.job_info}}</p>
-              <a href="#" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
+              <a href="{% url 'job_details' i.id %}" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
               <a href=""  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
             </div>
         </div>

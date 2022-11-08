@@ -32,7 +32,11 @@ class Job_Profiles(models.Model):
     def __str__(self):
         return self.user.companyuserid
 
-   
+class skills(models.Model):
+    company_id=models.ForeignKey("Companies",on_delete=models.CASCADE)
+    job_profile_id=models.ForeignKey("Job_Profiles",on_delete=models.CASCADE)
+    skills=models.CharField(max_length=100)
+
 
 
 

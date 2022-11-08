@@ -1,8 +1,10 @@
 from email import message
-from Company.models import Job_Profiles, Companies
+from Company.models import Job_Profiles, Companies,skills
 from django.contrib import messages 
 
 from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -11,7 +13,7 @@ from Company.models import Companies,Job_Profiles
 # Create your views here.
 
 def company_home(request):
-    return render(request,'company.html')
+    return render(request,'company_dashboard.html')
 
 #company registration
 def company_registration(request):
@@ -25,6 +27,7 @@ def company_registration(request):
         city=request.POST.get('city')
         password1=request.POST.get('pass1')
         password2=request.POST.get('pass1')
+
 
         if Companies.objects.filter(companyuserid=companyuserid):
             messages.error(request,"Company already exit please try diffrent id")
@@ -62,7 +65,12 @@ def company_registration(request):
 #                 return render(request,'add.html')
 
 def companyhome(request):
-    return render(request,'company_dashboard.html')
+    info=Job_Profiles.objects.values('profile_name','job_info','no_of_vacancies')
+    obj=Job_Profiles.objects.all()
+    
+    
+   
+    return render(request,'company_dashboard.html',{'company_info':info})
 
 
 def ADD(request):
@@ -71,17 +79,34 @@ def ADD(request):
         job_role=request.POST.get('jobrole')
         job_des=request.POST.get('jobdes')
         vacancies=request.POST.get('vacancies')
+        job_skills=request.POST.get('skills')
         company_id=Companies.objects.get(companyuserid=request.user.username)
+        #job_profile_id=Job_Profiles.objects.get(id=i_d)
+        
+        print(company_id)
         data=Job_Profiles(profile_name=job_role,company_id=company_id,job_info=job_des,no_of_vacancies=vacancies)
         data.save()
-        return redirect('add')
+        i_d=data.id
+        job_profile_id=Job_Profiles.objects.get(id=i_d)
+
+        data2=skills(skills=job_skills,company_id=company_id,job_profile_id=job_profile_id)
+       
+        data2.save()
+        return redirect('comphome')
     info=Job_Profiles.objects.values('profile_name','job_info','no_of_vacancies')
     print(info)
     return render(request,'company_dashboard.html',{'company_info':info})
 
 def delete(request,id):
     if request.method=='POST':
-        role=Job_Profiles.objects.get(pk=id)
+        role=Job_Profiles.objects.get(id=id)
+        print(role)
         role.delete()
         return redirect('add')
     return render(request,'company_dashboard.html')
+
+def job_info(request):
+    return render(request,'views.html')
+
+class JobDetailView(LoginRequiredMixin, DetailView):
+    model = Job_Profiles,skills
