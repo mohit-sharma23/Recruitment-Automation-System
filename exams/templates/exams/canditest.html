@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awesome Quiz App | CodingNepal</title>
     <link rel="stylesheet" href="static/css/testpage.css">
+    <!-- <link rel="stylesheet" href="static/css/exam.css"> -->
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/landingPage.css" rel="stylesheet">
 
@@ -26,6 +27,9 @@
 
 <body>
     <section id="contact" class="contact">
+        <p class="logout-timer">
+            <span class="timer">05:00</span>
+          </p>
         <div class="container">
 
             <div class="section-title">
@@ -33,50 +37,25 @@
                 <h2>Test</h2>
             </div>
             <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
-                <form action="/cal_marks/" onsubmit="return saveAns()" method="post" role="form" class="php-email-form">
+                <form action="exam_res/"  method="post" role="form" class="php-email-form">
                     <!-- <h1 style="text-align: center;">{{course.course_name}}</h1> -->
-                    {% for q in questions%}
+                    {% for s,e in f %}
                     <div class="d-flex justify-content-between">
-                        <h3 >{{ forloop.counter }}. {{q.question}}</h3>
-                        <h4 >[Marks {{q.marks}}]</h4>
+                        <h3 >{{ forloop.counter }}. {{s.question}}</h3>
+                        <h4 >[Marks {{s.score}}]</h4>
                     </div>
-
+                    {% for o in e %}
                     <div class="form-check my-4">
-                        <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}"
-                            value="Option1">
+                        <input class="form-check-input" type="checkbox" name="{{ s.id }}" id="{{q.option1}}"
+                            value="{{ o.id }}">
                         <label class="form-check-label" for="option1">
-                            {{q.option1}}
+                            {{o.option}}
                         </label>
                     </div>
-
-
-                    <div class="form-check my-4">
-                        <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option2}}"
-                            value="Option2">
-                        <label class="form-check-label" for="option2">
-                            {{q.option2}}
-                        </label>
-                    </div>
-
-
-                    <div class="form-check my-4">
-                        <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option3}}"
-                            value="Option3">
-                        <label class="form-check-label" for="option3">
-                            {{q.option3}}
-                        </label>
-                    </div>
-
-
-                    <div class="form-check my-4">
-                        <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option4}}"
-                            value="Option4">
-                        <label class="form-check-label" for="option4">
-                            {{q.option4}}
-                        </label>
-                    </div>
-
+                    {%endfor%}
+                    <hr>
                     {% endfor %}
+                    
                     <div class="text-center"><button type="submit">Submit Test</button></div>
                 </form>
             </div>
@@ -84,19 +63,23 @@
         </div>
     </section>
 
+</body>
 
     <script>
-        function saveAns() {
+        let timer
+        console.log("dsejx")
 
-            var ele = document.getElementsByTagName('input');
-            for (i = 0; i < ele.length; i++) {
-                if (ele[i].type = "radio") {
-                    if (ele[i].checked) {
-                        setCookie(ele[i].name, ele[i].value, 3)
-                    }
-                }
-            }
-        }
+        // function saveAns() {
+
+        //     var ele = document.getElementsByTagName('input');
+        //     for (i = 0; i < ele.length; i++) {
+        //         if (ele[i].type = "radio") {
+        //             if (ele[i].checked) {
+        //                 setCookie(ele[i].name, ele[i].value, 3)
+        //             }
+        //         }
+        //     }
+        // }
 
         function setCookie(cname, cvalue, exdays) {
             var d = new Date();
@@ -105,7 +88,27 @@
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
 
-    </script>
-</body>
+        const labelTimer = document.querySelector('.timer');
+        const startLogOutTimer=function(){
+            console.log("hello")
+            const tick=function(){
+                const min=String(Math.trunc(time/60)).padStart(2,0);
+                const sec=String(time%60).padStart(2,0);
+                labelTimer.textContent=`${min}:${sec}`;
+                if(time==0){
+                    clearInterval(timer);
+                    // labelWelcome.textContent = 'Log in to get started'
+                    // containerApp.style.opacity = 0;
+                }
+                time--;
+            };
+            let time=10;
+            tick();
+            const timer=setInterval(tick,1000)
+            return timer;
+        console.log("hey")
+        }
+        startLogOutTimer()
 
+    </script>
 </html>

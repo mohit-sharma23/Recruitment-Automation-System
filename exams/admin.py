@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Questions)
 admin.site.register(Options)
 admin.site.register(Answers)
+admin.site.register(ExamDuration)

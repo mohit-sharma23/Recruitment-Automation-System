@@ -4,11 +4,12 @@ from django.contrib import admin
 from django.urls import path , include
 from Recruitment_Management2 import views
 from django.conf.urls.static import static
-
+from .views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('Company.urls')),
+    path('',home,name='home'),
     path('',include('exams.urls')),
+    path('',include('Company.urls')),
 
     
     # path('',include('candidates.urls')),

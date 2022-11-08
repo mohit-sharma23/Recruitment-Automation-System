@@ -14,5 +14,5 @@ urlpatterns = [
    path('login/',auth_views.LoginView.as_view(template_name='company.html'),name='login'),
    path('comphome/',views.companyhome,name='comphome'),
    path('comphome/add',views.ADD,name='add'),
-   path('delete/<int:id>',views.delete,name='delete')
+   path('comphome/delete/<int:uid>',views.delete,name='delete')
 ]

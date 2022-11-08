@@ -124,7 +124,6 @@
             </div>
             <input type="submit" class="btn btn-primary" value="Save changes">
             
-
         </form>
 
         </div>
@@ -155,7 +154,7 @@
               <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
               <p class="card-text">{{i.job_info}}</p>
               <a href="#" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
-              <a href=""  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
+              <a href="{% url 'delete' i.id %}"  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
             </div>
         </div>
         {% endfor %}

@@ -16,14 +16,14 @@
 </head>
 
 <body>
-  <header id="header" class="fixed-top">
+  <!-- <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="landingpage.html">ARS</a></h1>
+      <h1 class="logo"><a href="landingpage.html">ARS</a></h1> -->
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="static/img/logo.png" alt="" class="img-fluid"></a>-->
 
-      <nav id="navbar" class="navbar">
+      <!-- <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="candidate_login">Candidate</a></li>
@@ -34,16 +34,16 @@
           <li><a class="getstarted scrollto" href="#about">Admin</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+      </nav>.navbar -->
 
-    </div>
-  </header>
+    <!-- </div>
+  </header> -->
 
   <section class="registration_form">
     <div class="title">
       Registration Form
     </div>
-    <form class="row g-3" action="company_registration" method="POST">
+    <form class="row g-3"style="margin: left 0;" action="company_registration" method="POST">
       {% csrf_token %}
         <!-- {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -108,7 +108,7 @@
         </div>
 
         <div class="login">
-          <p>Already have account? <a href="company">login</a> </p>
+          <p>Already have account? <a href="/login">login</a> </p>
         </div>
     </form>
   </section>

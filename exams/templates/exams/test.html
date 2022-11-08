@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <!-- Created By CodingNepal - www.codingnepalweb.com -->
+<!-- {% load static %} -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +13,7 @@
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/landingPage.css" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/exam.css">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'exams/css/exam.css' %}?{% now "U" %}"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <!-- FontAweome CDN Link for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -28,6 +30,10 @@
                 <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
                     <form method="post" class="php-email-form form">
                         {% csrf_token %}
+                        <div class="reqtime">
+                            <label for="time">Enter Test Duration :</label>
+                            <input class="" name="time" id="time" type="time">
+                        </div>
                         <div id="question"></div>
                         <input type="hidden" value="1" id="total_qn"> 
                         <button class="btn btn-info mt-2" type="button submit"> SUBMIT</button>
@@ -52,7 +58,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
             $('body').on('click',".add",add)
-            $('.remove').on('click', remove);
+            $('body').on('click',".remove", remove);
             $('.newqn').on('click',newqn);
             $('.removeqn').on('click',removeqn);
             let opt_no=0;
@@ -66,14 +72,16 @@ function newqn(e){
     // console.log(new_qn_no);
     // var qn_no=parseInt($('#total_qn').val())+1;
     console.log(qn_no);
-    var new_input=`<div class='qn_no_${qn_no} container'>\
+    var new_input=`<div class='qn_no_${qn_no} container mb-3'>\
                             <div class='qn justify-content-between row'>\
+                                <div class='col-1 ind'>${qn_no}</div>\
                                 <input type='text' class ='qn mb-3 col-9' name='${qn_no}' placeholder='Type your question here''>\
-                                <div class='score col-3 text-center'><label for="score">Score:</label><input class='s' name='${qn_no}' required type='number'></div>\
+                                <div class='score col-2 text-center'><label for="score">Score:</label><input class='s' name='${qn_no}' required type='number'></div>\
                             </div>\
                             <div id='option-${qn_no}' name="${qn_no}" data-id=${qn_no}></div>\
                             <button class='add btn btn-success mt-2 mb-2' data-btn=${qn_no}>Add Option</button>\
                             <button class='remove btn btn-danger mt-2 mb-2'>Remove Option</button>\
+                            <input type="hidden" value=0 id='total_chq'>\
                             </div>`
     $('#question').append(new_input);
     $('#total_qn').val(new_qn_no);
@@ -93,11 +101,20 @@ function removeqn(e){
     }
 }
 function remove(e) {
+    console.log("hey")
+
     e.preventDefault();
-    var last_chq_no = $('#total_chq').val()-1;
-    if (last_chq_no > 1) {
-        $(`.qn_no_${opt_no}`).remove();
+    var last_chq_no =parseInt($('#total_chq').val()-1) ;
+    typeof last_chq_no
+    console.log(last_chq_no)
+
+    if (last_chq_no >= 0) {
+        console.log($(`.${qn_no}_${opt_no}`))
+        $(`.${qn_no}_${opt_no}`).remove();
+        opt_no--;
     }
+    $('#total_chq').val(last_chq_no);
+
 }
 function add(e) {
     e.preventDefault();
@@ -108,13 +125,15 @@ function add(e) {
     opt_no++;
     // var qn_no=parseInt($('.qn_no').val());
   var new_chq_no = parseInt($('#total_chq').val()) + 1;
+  console.log(new_chq_no)
   var new_input = `\
-  <div style='margin-top:10px ${qn_no}_${opt_no}'>\
+  <div style='margin-top:10px' class='${qn_no}_${opt_no}'>\
   <input class='form-check-input check' name='${qn_no}_${opt_no}' type='checkbox' value='${qn_no}_${opt_no}' id='new_check" + new_chq_no + "'>\
   <input type='text' name="${qn_no}_${opt_no}" for='${qn_no}_${opt_no}' placeholder="Enter Option" class='option' id='new_" + new_chq_no + "'>\
   </div>`;
   $(`#option-${u}`).append(new_input);
   $('#total_chq').val(new_chq_no);
+
 }
 </script>
 </body>

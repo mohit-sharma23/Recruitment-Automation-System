@@ -29,8 +29,6 @@ class Job_Profiles(models.Model):
     def get_instance(self):
         return self
 
-    def __str__(self):
-        return self.user.companyuserid
 
    
 

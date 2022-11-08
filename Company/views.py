@@ -11,7 +11,7 @@ from Company.models import Companies,Job_Profiles
 # Create your views here.
 
 def company_home(request):
-    return render(request,'company.html')
+    return render(request,'company_dashboard.html')
 
 #company registration
 def company_registration(request):
@@ -79,7 +79,7 @@ def ADD(request):
     print(info)
     return render(request,'company_dashboard.html',{'company_info':info})
 
-def delete(request,id):
+def delete(request,uid):
     if request.method=='POST':
         role=Job_Profiles.objects.get(pk=id)
         role.delete()
