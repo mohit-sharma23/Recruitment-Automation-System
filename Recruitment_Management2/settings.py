@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'candidates',
     'tests',
     'exams',
-    'resume'
+    'resume',
+    'Company',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +131,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-LOGIN_URL = '/candidate_login/'
+LOGIN_REDIRECT_URL = 'comphome'
+
+LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
