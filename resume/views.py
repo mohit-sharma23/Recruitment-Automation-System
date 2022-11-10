@@ -16,4 +16,5 @@ def create_resume(request):
         resum = resumedata(name = username, phno = phno, address=address, college = college,cgpa = cgpa,comname = company,brief = brief,start = start,end = end)
         print(resum)
         resum.save()
+        
     return render(request, 'resume/createresume.html')
