@@ -3,7 +3,8 @@ from django.db import models
 from Company.models import *
 # Create your models here.
 class Questions(models.Model):
-    # companyId=models.ForeignKey(Companies,on_delete=models.CASCADE)
+    companyId=models.ForeignKey(Companies,related_name='company',on_delete=models.CASCADE)
+    jobId=models.ForeignKey(Job_Profiles,related_name='job',on_delete=models.CASCADE,default=13)
     question=models.TextField()
     score=models.IntegerField()
 

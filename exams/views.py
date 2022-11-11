@@ -1,20 +1,23 @@
 import re
 from django.shortcuts import render,redirect
 from .models import Questions,Options,Answers,ExamDuration
+from Company.models import Companies,Job_Profiles
 from .forms import *
 
 
 # Create your views here.
 
 
-def form(request):
+def form(request,id):
     if request.method=='POST':
         # print(request.POST)
         # print("l")
         # print(request.POST.getlist('1')[1])
         keys=list((request.POST).keys())
         values=list((request.POST).values())
-
+        username=request.user.username
+        compId=Companies.objects.get(companyuserid=username)
+        jobId=Job_Profiles.objects.get(id=id)
         # print(keys)
         # print(values)
         qn_id=0
@@ -48,7 +51,7 @@ def form(request):
                     examduration=ExamDuration(time=request.POST.get(temp))
                     examduration.save()
                 else:
-                    questions=Questions(question=request.POST.getlist(temp)[0],score=request.POST.getlist(temp)[1])
+                    questions=Questions(companyId=compId,jobId=jobId,question=request.POST.getlist(temp)[0],score=request.POST.getlist(temp)[1])
                     questions.save()
                     qn_id=questions.id
                     print(questions.id)

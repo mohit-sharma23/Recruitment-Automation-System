@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?{% now "U" %}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+
+    <section id="menu">
+        <div class="logo">
+        <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
+        <h2>Technobit</h2>
+    </div>
+
+    <div class="items">
+        <li><i class="fa-regular fa-chart-line"></i><a href="#">Dashboard</a></li>
+        <li class="description" style="color:gray"><i class="fa-regular fa-chart-line"></i>Job Description</li>
+        <li class="test" style="color:gray"><i class="fa-regular fa-chart-line"></i>Test</li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="#">Forms</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="#">Candidate</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'login' %}">Test</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="#">Settings</a></li>
+
+
+    </div>
+    </section>
+    <section id="header">
+      
+
+        <div class="navigation">
+            <div class="n1">
+                <div class="search">
+                    <i class="far fa-search"></i>
+                    <input type="text" placeholder="search">
+                    <button type="submit" class="btn btn-success btn-sm">Search</button>
+                   
+                </div>
+                
+            </div>
+
+            <div class="profile">
+                <i class="far fa-bell"></i>
+                <a class="btn btn-danger btn-sm mr-3" href="/signOut/">Log Out</a>
+                <h4 class="mr-5">{{user.username}}</h4>
+                <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
+            </div>
+        </div>
+
+    <div class='tab myDIV1' id=" myDIV1">
+        <div class="row ">
+         <div class="col-md-8 mt-5 ml-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Job Name </h3>
+            </div>
+            <div class="panel-body">
+              {{object.profile_name}}
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Job Description</h3>
+            </div>
+            <div class="panel-body">
+             {{object.job_info}}
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">skills</h3>
+            </div>
+            <div class="panel-body">
+              {% for skill in skills %}
+              {{skill.skills}}
+              {% endfor %}
+
+            </div>
+          </div>
+         </div>
+       </div>
+
+       <div class="row">
+        <div class="col-md-3  ml-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">vacancies</h3>
+                </div>
+                <div class="panel-body">
+                {{object.no_of_vacancies}}
+                </div>
+              </div>
+        </div>
+
+       </div>
+    </div>
+<!-- ----------------------------2nd Div---------------- -->
+<div class='tab hide myDIV2' id="myDIV2">
+
+
+    <div class="row ml-5 mt-5">
+        <a href="{% url 'form' object.id %}" class="btn  btn-primary">Add Test</a>
+        <button type="button" class="btn ml-5 btn-primary">Update Test</button>
+    </div>
+   
+<div class="row mt-5 ml-3 ">
+
+  
+    <ul class="list-group   list-group-horizontal mt-5 ml-5">
+        <li class="list-group-item border bg-light border-danger"><h4>No Of Candidate Appeared :- <span>100</span></h4></li>
+        
+    </ul>
+    <ul class="list-group  list-group-horizontal mt-5 ml-5">
+        <li class="list-group-item border bg-light border-danger"><h4>Max Score Of Test :- <span>95</span></h4></li>
+        
+    </ul>
+</div>
+  
+
+<h4 class="ml-3"><span>Results:-</span></h4>
+
+<div class="container mt-5">
+   
+  
+    <div class=" table-responsive w-75">
+        <table  class="table table-bordered table-hover table-striped">
+            <thead class="pb-5">
+              <tr class="bg-dark text-white ">
+                <th style="width: 8%;" scope="col">No</th>
+                <th style="width: 17%;" scope="col">Name</th>
+                <th style="width: 10%;" scope="col">Phone No</th>
+                <th style="width: 20%;" scope="col">Email</th>
+                <th style="width: 20%;" scope="col">Score</th>
+                <th style="width: 20%;" scope="col">Resume</th>
+                <th style="width: 20%;" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>9356034517</td>
+                <td>mohitsharma28610@gmail.com</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td class="d-flex">
+                    <a href=""><button type="submit" class="btn btn-success   btn-sm">Accept</button></a>
+                   <a href=""> <button type="submit" class="btn btn-danger btn-sm ml-3">Reject</button></a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+
+        
+    </div>
+
+</div>  
+
+</div>
+
+
+
+    <script>
+
+      const tab=document.querySelectorAll('.tab');
+      const description=document.querySelector('.description');
+      const test=document.querySelector('.test');
+      const details=document.querySelector('.myDIV1');
+      const testdetails=document.querySelector('.myDIV2');
+
+      test.addEventListener('click',function(){
+        tab.forEach(t=>t.classList.remove('hide'));
+        details.classList.add('hide');
+      })
+      description.addEventListener('click',function(){
+        tab.forEach(t=>t.classList.remove('hide'));
+        testdetails.classList.add('hide');
+      })
+      
+        
+      // function myFunction1() {
+
+      //   document.getElementById("myDIV1").style.display = "block";
+
+      //   document.getElementById("myDIV2").style.display = "none";
+
+
+// }
+
+
+//        function myFunction2() {
+
+//             document.getElementById("myDIV1").style.display = "none";
+
+//             document.getElementById("myDIV2").style.display = "block";
+
+
+// }
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    
+</body>
+    

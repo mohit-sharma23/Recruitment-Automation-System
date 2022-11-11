@@ -25,12 +25,20 @@ class Job_Profiles(models.Model):
     condi_tion=models.CharField(max_length=100)
     no_of_vacancies=models.CharField(max_length=100)
 
+
+
+class skills(models.Model):
+    company_id=models.ForeignKey("Companies",on_delete=models.CASCADE)
+    job_profile_id=models.ForeignKey("Job_Profiles",on_delete=models.CASCADE)
+    skills=models.CharField(max_length=100)
+
+    
     @property
     def get_instance(self):
         return self
 
 
-   
+
 
 
 

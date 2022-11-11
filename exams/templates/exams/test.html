@@ -1,6 +1,6 @@
 <!-- <!DOCTYPE html> -->
 <!-- Created By CodingNepal - www.codingnepalweb.com -->
-<!-- {% load static %} -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,11 +8,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awesome Quiz App | CodingNepal</title>
-    <link rel="stylesheet" href="static/css/testpage.css">
+    <link rel="stylesheet" href="{% static 'testpage.css' %}">
     <!-- <link rel="stylesheet" href="exam.css"> -->
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/landingPage.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/exam.css">
+    <link href="{% static 'css/landingPage.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/exam.css' %}">
     <!-- <link rel="stylesheet" type="text/css" href="{% static 'exams/css/exam.css' %}?{% now "U" %}"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <!-- FontAweome CDN Link for Icons -->
@@ -35,7 +35,7 @@
                             <input class="" name="time" id="time" type="time">
                         </div>
                         <div id="question"></div>
-                        <input type="hidden" value="1" id="total_qn"> 
+                        <input type="hidden" value="1" id="total_qn">
                         <button class="btn btn-info mt-2" type="button submit"> SUBMIT</button>
                     </form>
                 </div>
