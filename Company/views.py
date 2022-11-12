@@ -9,11 +9,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
 from Company.models import Companies,Job_Profiles
+from resume.models import Candidate
 
 # Create your views here.
 
 def company_home(request):
-    return render(request,'company_dashboard.html')
+    if not Candidate.objects.filter(username=request.user.username):
+        return render(request,'company_dashboard.html')
+    return render(request,'resume/candiHome.html')
 
 #company registration
 def company_registration(request):
@@ -48,7 +51,7 @@ def company_registration(request):
         u.set_password(password1)
         u.save()
 
-        return redirect('company')
+        return redirect('login')
         
 
     return render(request,'companyregistrationPage.html')
@@ -65,10 +68,15 @@ def company_registration(request):
 #                 return render(request,'add.html')
 
 def companyhome(request):
-    info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
-    obj=Job_Profiles.objects.all()
+    print(request)
+    user=request.user.username
+    if not Candidate.objects.filter(username=user):
+        info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
+        obj=Job_Profiles.objects.all()
+        return render(request,'company_dashboard.html',{'company_info':info})
+    return redirect('candihome')
+    # return render(request,'resume/candiHome.html')
 
-    return render(request,'company_dashboard.html',{'company_info':info})
 
 
 def ADD(request):

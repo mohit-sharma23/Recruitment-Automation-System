@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'candidates',
     'tests',
     'exams',
+    'resume',
     'Company',
 ]
 
@@ -72,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Recruitment_Management2.wsgi.application'
-
+APPEND_SLASH=False
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -120,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -132,5 +134,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 LOGIN_REDIRECT_URL = 'comphome'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
