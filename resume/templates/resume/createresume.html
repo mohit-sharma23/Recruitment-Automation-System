@@ -76,10 +76,6 @@
                 </select>
                 
                 
-                <button type="button" class="btn btn-danger mt-3 addskill"> Add Skill</button>
-                <input type="hidden" id="total_skills" value="0">
-                
-                
                 <!-- <div>
                     
                     <label for="start year">From </label>
@@ -102,9 +98,18 @@
                     </select>
                 </div> -->
             <!-- </div> -->
-            <div ></div>
-            <button class=" btn btn-success mt-3" type="submit button m-10" class="btn btn-dark">Submit</button>
+            
+            <div >
+                <button type="button" class="btn btn-danger mt-3 addskill"> Add Skill</button>
+                <button type="button" class="btn btn-danger mt-3 remskill"> Remove Skill</button>
+                <input type="hidden" id="total_skills" value="0">
+            </div>
+            <button class=" btn btn-success mt-3" type="submit button m-10" class="btn btn-dark">Submit</button>              
         </div>
+  
+
+
+
         </form>
     
     </div>
@@ -121,6 +126,7 @@
             $('.remexp').on('click',remexp);
             $('.remcourse').on('click',remcourse);
             $('.remprj').on('click',remprj);
+            $('.remskill').on('click',remskill);
 
             let opt_no=0;
             let qn_no=0;
@@ -177,8 +183,8 @@ function addskill(e){
     var new_skill_no=parseInt($('#total_skills').val())+1;
     var sld=$('.sk').val()
     skills += ","+ sld
-    var new_input=`<button class="qn_no_${qn_no} btn btn-light skill mt-3 ml-3 " style="position:relative ;margin-right:1rem !important" name="skill_${skill}" value="{sld}">${sld}</button>\
-    <input type="hidden" name="skill_${skill}" value="${sld}">`
+    var new_input=`<button class=" sbutton_${skill} qn_no_${qn_no} btn btn-light skill mt-3 ml-3 " style="position:relative ;margin-right:1rem !important" name="skill_${skill}" value="{sld}">${sld}</button>\
+    <input class='shidden_${skill}' type="hidden" name="skill_${skill}" value="${sld}">`
     $('.disskill').append(new_input);
     $('#total_skills').val(new_skill_no);
 }
@@ -230,10 +236,19 @@ function remprj(e){
         prj--;
         var new_prj_no=parseInt($('#total_prj').val())-1;
         $('#total_prj').val(new_course_no);
-
-
     }
+}
 
+function remskill(e){
+    e.preventDefault();
+    var last_skill_no=$('#total_skills').val();
+    if(last_skill_no>=1){
+        $(`.sbutton_${skill}`).remove();
+        $(`.shidden_${skill}`).remove();
+    }
+    skill--;
+    var new_skill_no=parseInt($('#total_skills').val()-1);
+    $('#total_skills').val(new_skill_no);
 }
 function removeqn(e){
     e.preventDefault();
