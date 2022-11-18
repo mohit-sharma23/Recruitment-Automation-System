@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load static %}
 <!-- Created By CodingNepal - www.codingnepalweb.com -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,14 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awesome Quiz App | CodingNepal</title>
-    <link rel="stylesheet" href="static/css/testpage.css">
+    <link rel="stylesheet" href="{% static 'testpage.css' %}?{% now "U" %}">
     <!-- <link rel="stylesheet" href="static/css/exam.css"> -->
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/landingPage.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link href="{% static 'css/landingPage.css' %}?{% now "U" %}" rel="stylesheet">
+<link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <!-- FontAweome CDN Link for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+   
     <style>
         .contact .php-email-form input{
             height: 14px;
@@ -25,49 +26,86 @@
     </style>
 </head>
 
+
 <body>
-    <section id="contact" class="contact">
-        <p class="logout-timer">
-            <span class="timer">05:00</span>
-          </p>
+  <button class="btn btn-primary mod" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Click on Start to Start the test</h1>
+          <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Instructions:</p>
+          <p>The test is an {{durr}} hrs mcq based exam</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary start">Start</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <section id="contact" class="contact overlay">
+        <button class="btn btn-success btn-lg logout-timer">
+            <!-- <span class="timer">05:00:00</span> -->
+            <span class="timer">{{dur}}</span>
+        </button>
         <div class="container">
 
             <div class="section-title">
                 <span>Test</span>
                 <h2>Test</h2>
             </div>
-            <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
+
+            <div class="col-lg-12">
                 <form action="exam_res/"  method="post" role="form" class="php-email-form">
                     <!-- <h1 style="text-align: center;">{{course.course_name}}</h1> -->
-                    {% for s,e in f %}
-                    <div class="d-flex justify-content-between">
-                        <h3 >{{ forloop.counter }}. {{s.question}}</h3>
-                        <h4 >[Marks {{s.score}}]</h4>
-                    </div>
-                    {% for o in e %}
-                    <div class="form-check my-4">
-                        <input class="form-check-input" type="checkbox" name="{{ s.id }}" id="{{q.option1}}"
-                            value="{{ o.id }}">
-                        <label class="form-check-label" for="option1">
-                            {{o.option}}
-                        </label>
-                    </div>
-                    {%endfor%}
-                    <hr>
-                    {% endfor %}
-                    
+                    <div class="slider">
+                        {% for s,e in f %}
+                        <div class="slide slide-{{ forloop.counter }}">
+                            <div class="testinomial">
+                                <div class="d-flex justify-content-between">
+                                    <h3 >{{ forloop.counter }}. {{s.question}}</h3>
+                                </div>
+                                <h4 >[Marks {{s.score}}]</h4>
+
+                                {% for o in e %}
+                                <div class="form-check my-4">
+                                    <input class="form-check-input" type="checkbox" name="{{ s.id }}" id="{{q.option1}}"
+                                        value="{{ o.id }}">
+                                    <label class="form-check-label" for="option1">
+                                        {{o.option}}
+                                    </label>
+                                </div>
+                                {%endfor%}
+                                <!-- <hr> -->
+                            </div>
+                        </div>
+                        {% endfor %}
+                      </div>
                     <div class="text-center"><button type="submit">Submit Test</button></div>
                 </form>
             </div>
-
         </div>
     </section>
+    <br>
+    <button class="slider__btn slider__btn--left btn btn-success">Previous Question</button>
+    <div class="dots"></div>
+    <button class="slider__btn slider__btn--right btn btn-success">Next Question</button>
+    <br>
+    <br>
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
     <script>
-        let timer
-        console.log("dsejx")
+      document.querySelector('.mod').click()
+        // let timer
+        // console.log("dsejx")
 
         // function saveAns() {
 
@@ -87,28 +125,167 @@
             var expires = "expires=" + d.toUTCString();
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
-
+        const start=document.querySelector('.start')
+        const close=document.querySelector('.close')
         const labelTimer = document.querySelector('.timer');
-        const startLogOutTimer=function(){
-            console.log("hello")
-            const tick=function(){
-                const min=String(Math.trunc(time/60)).padStart(2,0);
-                const sec=String(time%60).padStart(2,0);
-                labelTimer.textContent=`${min}:${sec}`;
-                if(time==0){
-                    clearInterval(timer);
-                    // labelWelcome.textContent = 'Log in to get started'
-                    // containerApp.style.opacity = 0;
-                }
-                time--;
-            };
-            let time=10;
-            tick();
-            const timer=setInterval(tick,1000)
-            return timer;
-        console.log("hey")
+        const btntimer=document.querySelector('.logout-timer')
+        console.log(labelTimer.textContent)
+        countdown=labelTimer.textContent
+        console.log(typeof(countdown))
+        hours=parseInt(countdown.substring(0,2))
+        console.log(typeof(hours))
+        const contact=document.querySelector('.contact')
+        minutes=parseInt(countdown.substring(3,5))
+        seconds=parseInt(countdown.substring(6,8))
+        const StartTimer=function(){
+          const startCount=function(){
+            if(minutes===0&& seconds===0){
+              minutes=60
+              hours-=1
+            }
+            if(seconds===0){
+              seconds=60
+              minutes-=1
+            }
+            seconds-=1
+            if(hours===0&&minutes<30&&minutes>=15){
+              btntimer.classList.remove('btn-success')
+              btntimer.classList.add('btn-danger')
+            }
+            if(hours===0&&minutes<15){
+              btntimer.classList.remove('btn-danger')
+              btntimer.classList.add('end-timer')
+            }
+            hrs=String(hours).padStart(2,0);
+            min=String(minutes).padStart(2,0);
+            sec=String(seconds).padStart(2,0);
+            // console.log(`${hours}:${minutes}:${seconds}`)
+            labelTimer.textContent=`${hrs}:${min}:${sec
+            }`
+          }
+          startCount()
+          const time=setInterval(startCount,1000)
+          return time
         }
-        startLogOutTimer()
+        start.addEventListener('click',function(e){
+          contact.classList.remove('overlay')
+          close.click()
+          StartTimer()
+        })
+        // StartTimer()
+        // console.log(hrs)
+        // console.log(min)
+        // var countDownDate = new Date().getTime();
+        // console.log(countDownDate)
+        // const startLogOutTimer=function(){
+        //     console.log("hello")
+        //     const tick=function(){
+        //         const min=String(Math.trunc(59)).padStart(2,0);
+        //         const hr=String(Math.trunc(min/60)).padStart(2,0);
+        //         const sec=String(time%60).padStart(2,0);
+        //         labelTimer.textContent=`${hr}:${min}:${sec}`;
+        //         if(time==0){
+        //             clearInterval(timer);
+        //             // labelWelcome.textContent = 'Log in to get started'
+        //             // containerApp.style.opacity = 0;
+        //         }
+        //         time--;
+        //     };
+        //     let time=4600;
+        //     tick();
+        //     const timer=setInterval(tick,1000)
+        //     return timer;
+        // console.log("hey")
+        // }
+        // startLogOutTimer()
 
+        const Slider=function(){
+let curSlide=0;
+const slides=document.querySelectorAll('.slide');
+const btnLeft=document.querySelector('.slider__btn--left');
+const btnRight=document.querySelector('.slider__btn--right');
+const dotContainer=document.querySelector('.dots')
+
+const slider=document.querySelector('.slider');
+const maxSlide=slides.length
+// slider.style.transform='scale(0.4) translateX(-800px)';
+// slider.style.overflow='visible';
+
+// slides.forEach((s,i)=>(s.style.transform=`translateX(${100*i}%)`));
+
+const createDots=function(){
+  slides.forEach(function(_,i){
+    dotContainer.insertAdjacentHTML('beforeend',`<button class="dots__dot" data-slide="${i}">${i+1}</button>`);
+  });
+};
+
+const activateDots=function(slide){
+  document.querySelectorAll('.dots__dot').forEach(dot=>dot.classList.remove('dots__dot--active'));
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add(`dots__dot--active`);
+}
+
+
+const goToSlide=function(slide){
+  slides.forEach(
+    (s,i)=>(s.style.transform=`translateX(${100*(i-slide)}%)`)
+  );
+  console.log(slide)
+  sl=parseInt(slide)+1
+  var clientHeight = document.querySelector(`.slide-${sl}`).clientHeight;
+        document.querySelector('.slider').style.height=`${clientHeight}px`
+        console.log(clientHeight)
+}
+const nextSlide=function(){
+  if(curSlide===maxSlide-1){
+    curSlide=0;
+  }else{
+    curSlide++;
+  }
+  goToSlide(curSlide);
+  activateDots(curSlide);
+  // slides.forEach((s,i)=>(s.style.transform=`translateX(${100*(i-curSlide)}%)`));
+};
+
+const prevSlide=function(){
+  if(curSlide===0){
+    curSlide=maxSlide-1;
+  }else{
+    curSlide--;
+    
+  }
+
+  goToSlide(curSlide);
+  activateDots(curSlide);
+
+  // slides.forEach((s,i)=>(s.style.transform=`translateX(${100*(i-curSlide)}%)`));
+};
+const init=function(){
+  goToSlide(0);
+  createDots();
+  activateDots(0);
+}
+init()
+
+btnRight.addEventListener('click',nextSlide);
+btnLeft.addEventListener('click',prevSlide);
+
+document.addEventListener('keydown',function(e){
+  console.log(e);
+  if(e.key==='ArrowLeft') prevSlide();
+  e.key==='ArrowRight' && nextSlide();
+})
+
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('dots__dot')){
+    const {slide}=e.target.dataset;
+    // console.log({slide})
+    goToSlide(slide);
+    activateDots(slide);
+
+  }
+})
+}
+Slider()
     </script>
+
 </html>

@@ -67,6 +67,8 @@ def form(request,id):
 
 def can_exam(request):
     question=Questions.objects.all()
+    dur=str(ExamDuration.objects.get(id=2).time)
+    # dur=dur[0:-3]
     qn_opts=[]
     for i in question:
         # print(question)
@@ -79,7 +81,7 @@ def can_exam(request):
     f=zip(question,qn_opts)
     # print(qn_opts)
     
-    return render(request,'exams/canditest.html',{'f':f})
+    return render(request,'exams/canditest.html',{'f':f,'dur':dur})
 
 def exam_res(request):
     if (request.method=="POST"):

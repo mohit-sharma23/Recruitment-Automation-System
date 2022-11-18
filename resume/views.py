@@ -42,6 +42,11 @@ def candi_regis(request):
     return render(request,'resume/candiRegist.html')
 
 def candihome(request):
+    user=request.user.username
+    candidate=Candidate.objects.get(username=user)
+    skills=Skill.objects.filter(candidateId=candidate)
+    if(skills):
+        print(skills)
     return render(request,'resume/candiHome.html')
 
 def create_resume(request):
