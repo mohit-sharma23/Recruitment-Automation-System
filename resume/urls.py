@@ -8,4 +8,5 @@ urlpatterns = [
     path('',views.candi_regis,name='candi_regis'),
     path('candihome',views.candihome,name='candihome'),
     path('resume/',views.create_resume,name='create_resume'),
+    path('apply_job/',views.apply_job,name='apply_job'),
 ]

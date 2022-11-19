@@ -92,3 +92,6 @@ def create_resume(request):
                 skills.save()
 
     return render(request, 'resume/createresume.html')
+
+def apply_job(request):
+    return render(request,'resume/jobs.html')

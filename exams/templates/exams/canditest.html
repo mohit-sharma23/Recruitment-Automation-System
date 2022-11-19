@@ -41,7 +41,11 @@
         </div>
         <div class="modal-body">
           <p>Instructions:</p>
-          <p>The test is an {{durr}} hrs mcq based exam</p>
+          <p>The test is an {{dur}} hrs mcq based exam. For questions with multiple answers score would be divided
+             according to the number of right answers submitted.On submitting any wrong option the score for entire
+             sum would be duducted.<br><br> You can switch between the questions anytime. The paper will get automatically
+              submitted once the time is over.<br>
+          </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary start">Start</button>
@@ -87,7 +91,7 @@
                         </div>
                         {% endfor %}
                       </div>
-                    <div class="text-center"><button type="submit">Submit Test</button></div>
+                    <div class="text-center submit"><button type="submit">Submit Test</button></div>
                 </form>
             </div>
         </div>
@@ -155,6 +159,10 @@
             if(hours===0&&minutes<15){
               btntimer.classList.remove('btn-danger')
               btntimer.classList.add('end-timer')
+            }
+            if(hours===0&&minutes===0&&seconds===0){
+              const submit=document.querySelector('.submit')
+              submit.click()
             }
             hrs=String(hours).padStart(2,0);
             min=String(minutes).padStart(2,0);
