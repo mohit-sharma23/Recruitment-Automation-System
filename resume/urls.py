@@ -10,4 +10,5 @@ urlpatterns = [
     path('resume/',views.create_resume,name='create_resume'),
     path('apply_job/',views.apply_job,name='apply_job'),
     path('candi-profile/',views.candi_profile,name='candi_profile'),
+    path('job-info/<int:id>',views.job_info,name='job_info')
 ]

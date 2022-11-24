@@ -110,3 +110,12 @@ def candi_profile(request):
         'name':candi.candidate_name,
     }
     return render(request,'resume/candi_profile.html',use)
+
+def job_info(request,id):
+    job=Job_Profiles.objects.get(id=id)
+    comp=job.company_id.company_name
+    context={
+        'job':job,
+        'comp':comp
+    }
+    return render(request,'resume/jobdetail.html',context)
