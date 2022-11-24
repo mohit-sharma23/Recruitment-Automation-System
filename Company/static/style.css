@@ -13,9 +13,6 @@ body {
     background: #f5f5f5;
     display: flex;
     /* overflow: hidden; */
-
-    
-    
 }
 
  #menu{
@@ -159,4 +156,38 @@ body::-webkit-scrollbar{
 
 .hide{
     display: none;
+}
+
+
+
+.con{
+    background-color:white;
+    border: 3px grey solid;
+    border-radius: 10px;
+    margin-left: 28%;
+    /* height: 40rem; */
+    width: 50rem !important;
+    height:max-content;
+    padding-bottom: 20px;
+    position: absolute;
+
+}
+.hue{
+    position: absolute;
+}
+.heading{
+    font-size: 20px;
+    font-weight: bold;
+}
+.skill-name{
+    margin-bottom: 5px;
+}
+.left{
+    border-right: 3px solid black
+}
+.comp-name{
+    font-weight:500;
+}
+.dis{
+    display:none;
 }

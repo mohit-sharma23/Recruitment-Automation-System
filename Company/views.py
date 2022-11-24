@@ -7,9 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from Company.models import Companies,Job_Profiles
-from resume.models import Candidate
+from resume.models import Candidate,Course,Skill,Work_Experience,Projects
+from exams.models import ExamResult
 
 # Create your views here.
 
@@ -122,6 +123,19 @@ class JobDetailView(LoginRequiredMixin, DetailView):
         print(self.kwargs['pk'])
         id=Job_Profiles.objects.get(id=self.kwargs['pk'])
         print("KKKKKK")
-        print(skills.objects.filter(job_profile_id=id))
+        # print(skills.objects.filter(job_profile_id=id))
         context['skills']=skills.objects.filter(job_profile_id=id)
+        context['testres']=ExamResult.objects.filter(jobId=id)
         return context
+
+def disresume(request):
+    print(request.POST)
+    if request.method=='POST':
+        candi=request.POST['id']
+        candidate=Candidate.objects.get(id=candi)
+        skills=list(Skill.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
+        # return HttpResponse({'bool':True})
+        workExp=list(Work_Experience.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
+        courses=list(Course.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
+        prjs=list(Projects.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
+        return JsonResponse({'username':candidate.candidate_name,'college':candidate.college,'cgpa':candidate.cgpa,'skills':skills,'workExp':workExp,'courses':courses,'prjs':prjs})

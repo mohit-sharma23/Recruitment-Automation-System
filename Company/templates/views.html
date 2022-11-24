@@ -16,9 +16,11 @@
     
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-</head>
-<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 
+  </head>
+<body>
+<div class="one" style="position:absolute">
     <section id="menu">
         <div class="logo">
         <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
@@ -150,45 +152,20 @@
               </tr>
             </thead>
             <tbody>
+              {% for t in testres %}
               <tr>
                 <th scope="row">1</th>
-                <td>Mark</td>
-                <td>9356034517</td>
-                <td>mohitsharma28610@gmail.com</td>
-                <td>Larry</td>
-                <td>the Bird</td>
+                <td>{{t.candidateId.candidate_name}}</td>
+                <td>{{t.candidateId.phno}}</td>
+                <td>{{t.candidateId.candidate_email}}</td>
+                <td>{{t.totalScore}}</td>
+                <td><button data-id="{{t.candidateId.id}}" class="btn btn-success btn-sm resume">Resume</button></td>
                 <td class="d-flex">
-                    <a href=""><button type="submit" class="btn btn-success   btn-sm">Accept</button></a>
+                    <a href=""><button type="submit" class="btn btn-success btn-sm">Accept</button></a>
                    <a href=""> <button type="submit" class="btn btn-danger btn-sm ml-3">Reject</button></a>
                 </td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
 
@@ -200,7 +177,7 @@
 </div>
 
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
 
       const tab=document.querySelectorAll('.tab');
@@ -217,29 +194,143 @@
         tab.forEach(t=>t.classList.remove('hide'));
         testdetails.classList.add('hide');
       })
-      
+      // $(document).ready(function(){
+        var body = document.getElementsByTagName('body');
+      $('.one').on('click',function(){
+        $('.con').remove()
+      })
+      $('.resume').on('click',function(){
+        $('.con').remove()
+        console.log('hey')
+        var canId=$(this).data('id');
+        $.ajax({
+          type:"post",
+          url:"{% url 'disresume' %}",
+          headers: { "X-CSRFToken": '{{csrf_token}}' },
+          data: {
+                    id:canId,
+                    csrfmiddlewaretoken:"{{csrf_token}}",
+                },
+          datatype: "json",
+          success: function(response){
+            console.log(response)
+            // console.log(response.skills[0].skill);
+            // const con=document.querySelector('.con')
+            console.log(response.skills.length)            
+            let model=`<div class="container con" style="margin-left:33%">
+              <div class="btn remres" style="float:right">
+            <i class="fas fa-times fa-2x"></i>
+        </div>
+    <div class="row candiName" style="margin-top:4px;padding-top: 3px;padding-left: 20px; font-weight: bolder">
+    </div>
+    <hr>
+    <hr>
+    <div class="row">
+        <div class="col-5 left">
+            <p class="heading">
+                Education :
+            </p>
+            <div class="college">
+            </div>
+            <p class="heading">
+                Skills :
+            </p>
+            <div class="row allskills">
+            </div>
+            <p class="heading">
+              Courses :
+            </p>
+            <div class="allcourses">
+            </div>
+        </div>
+        <div class="col-7 right">
+            <p class="heading">Work Experience :</p>
+            <div class="allworkexp">
+            </div>
+            <p class="heading">Projects :</p>
+            <div class="allprjs"> 
+            </div>
+        </div>
+      </div>
+    </div>`
+          $(body).append(model)
+
+            for(let i=0;i<response.skills.length;i++){
+              let inp=`<div class="col-6">
+                    <p class="skill-name">${response.skills[i].skill}</p>
+                </div>`
+              $('.allskills').append(inp)
+            }
+
+            for(let i=0;i<response.courses.length;i++){
+              let inp=`
+              <p class="cou-name skill-name comp-name">
+                ${response.courses[i].course}
+            </p>
+            <p class="cou-name">
+                Platform- ${response.courses[i].platform}
+            </p>`
+            $('.allcourses').append(inp)
+            }
+
+            for(let i=0;i<response.workExp.length;i++){
+              if(`${response.workExp[i].internship}`==='true'){
+                let inp=`<p class="skill-name comp-name">${response.workExp[i].companyName}</p>
+                          <p class="skill-name">Internship</p>
+                          <p class="">${response.workExp[i].workDetails}</p>`
+                $('.allworkexp').append(inp)
+              }
+              else{
+                let inp=`<p class="skill-name comp-name">${response.workExp[i].companyName}</p>
+                          <p class="skill-name">Job</p>
+                          <p class="">${response.workExp[i].workDetails}</p>`
+                $('.allworkexp').append(inp)
+              }
+              
+            }
+            for(let i=0;i<response.prjs.length;i++){
+              let inp=`<p class="skill-name comp-name">${response.prjs[i].prj_name}</p>
+                        <a href="Prj Link" class="skill-name">${response.prjs[i].prj_link}</a>
+                        <p class="skill-name">${response.prjs[i].prj_des}</p>`
+              $('.allprjs').append(inp)
         
-      // function myFunction1() {
+            }
+            candiName=`<h4>${response.username}</h4>`
+            $('.candiName').append(candiName)
 
-      //   document.getElementById("myDIV1").style.display = "block";
+            college=`<p class="comp-name">${response.college}</p>
+                      <p>CGPA :${response.cgpa}</p>`
+            $('.college').append(college)
+   
+            $('.remres').on('click',remcon)
+            document.addEventListener('keydown',function(e){
+            console.log(e);
+            if(e.key==="Enter" ){
+              console.log(e.key)
+              remcon(e)
+            } 
+            })
+            function remcon(e){
+              e.preventDefault()
+              $('.con').remove()
+            }
+          }
+        })
+      })
+    // })
 
-      //   document.getElementById("myDIV2").style.display = "none";
 
 
-// }
-
-
-//        function myFunction2() {
-
-//             document.getElementById("myDIV1").style.display = "none";
-
-//             document.getElementById("myDIV2").style.display = "block";
-
-
-// }
     </script>
-     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+     <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+     
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    
+     </section>
+  </div>
+  
 </body>
     

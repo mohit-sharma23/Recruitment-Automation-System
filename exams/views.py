@@ -1,7 +1,8 @@
 import re
 from django.shortcuts import render,redirect
-from .models import Questions,Options,Answers,ExamDuration
+from .models import Questions,Options,Answers,ExamDuration,ExamResult
 from Company.models import Companies,Job_Profiles
+from resume.models import Candidate
 from .forms import *
 
 
@@ -48,7 +49,7 @@ def form(request,id):
             else:
                 if(temp=='time'):
                     # print(request.get(temp))
-                    examduration=ExamDuration(time=request.POST.get(temp))
+                    examduration=ExamDuration(companyId=compId,jobId=jobId,time=request.POST.get(temp))
                     examduration.save()
                 else:
                     questions=Questions(companyId=compId,jobId=jobId,question=request.POST.getlist(temp)[0],score=request.POST.getlist(temp)[1])
@@ -65,9 +66,10 @@ def form(request,id):
     return render(request,'exams/test.html',param)
 
 
-def can_exam(request):
-    question=Questions.objects.all()
-    dur=str(ExamDuration.objects.get(id=2).time)
+def can_exam(request,id):
+    question=Questions.objects.filter(jobId=id)
+    print(question)
+    dur=str(ExamDuration.objects.get(jobId=id).time)
     # dur=dur[0:-3]
     qn_opts=[]
     for i in question:
@@ -81,11 +83,16 @@ def can_exam(request):
     f=zip(question,qn_opts)
     # print(qn_opts)
     
-    return render(request,'exams/canditest.html',{'f':f,'dur':dur})
+    return render(request,'exams/canditest.html',{'f':f,'dur':dur,'id':id})
 
-def exam_res(request):
+def exam_res(request,id):
+    print(request.method)
     if (request.method=="POST"):
-        print("LLLLL")
+        jobId=Job_Profiles.objects.get(id=id)
+        compId=jobId.company_id
+        canId=Candidate.objects.get(username=request.user.username)
+        print(canId)
+        print(compId)
         # print(request.POST)
         keys=request.POST.keys()
         totsc=0
@@ -117,4 +124,8 @@ def exam_res(request):
                     break
             totsc+=sc
             print(totsc)
+            exam_res=ExamResult(companyId=compId,jobId=jobId,candidateId=canId,totalScore=totsc)
+            exam_res.save()
+            return redirect('candihome')
+    else:
         return redirect('home')

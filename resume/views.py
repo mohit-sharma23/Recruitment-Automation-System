@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects
+from Company.models import Job_Profiles
 from django.contrib.auth.models import User
 from django.contrib import messages 
 
@@ -43,11 +44,16 @@ def candi_regis(request):
 
 def candihome(request):
     user=request.user.username
-    candidate=Candidate.objects.get(username=user)
-    skills=Skill.objects.filter(candidateId=candidate)
-    if(skills):
-        print(skills)
-    return render(request,'resume/candiHome.html')
+    # candidate=Candidate.objects.get(username=user)
+    # skills=Skill.objects.filter(candidateId=candidate)
+    print('kk')
+    job=Job_Profiles.objects.all()
+    jobs={
+        'job':job
+    }
+    # if(skills):
+        # print(skills)
+    return render(request,'resume/candiHome.html',jobs)
 
 def create_resume(request):
     if request.method == "POST":
@@ -86,7 +92,7 @@ def create_resume(request):
                 prj_des=request.POST.getlist(temp)[2]
                 project=Projects(candidateId=user,prj_name=prj_name,prj_link=prj_link,prj_des=prj_des)
                 project.save()
-            if skill in skill:
+            if skill in temp:
                 skill=request.POST.getlist(temp)[0]
                 skills=Skill(candidateId=user,skill=skill)
                 skills.save()
@@ -95,3 +101,12 @@ def create_resume(request):
 
 def apply_job(request):
     return render(request,'resume/jobs.html')
+
+def candi_profile(request):
+    candi=Candidate.objects.get(username=request.user.username)
+    use={
+        'username':candi.username,
+        'email':candi.candidate_email,
+        'name':candi.candidate_name,
+    }
+    return render(request,'resume/candi_profile.html',use)

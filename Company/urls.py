@@ -16,4 +16,5 @@ urlpatterns = [
    path('jobinfo/',views.job_info,name='jobinfo'),
    path('delete/<int:id>/',views.delete,name='delete'),
    path('jobroles/<int:pk>/', JobDetailView.as_view(template_name='views.html'), name='job_details'),
+   path('disresume/',views.disresume,name='disresume'),
 ]

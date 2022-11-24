@@ -27,7 +27,7 @@
     <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="{% static 'css/landingPage.css' %}" rel="stylesheet">
+    <link href="{% static 'css/landingPage.css' %}?{% now "U" %}" rel="stylesheet">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="/candidate_profile/"><i class="bx bx-user-circle" style="padding-right: 7px; font-size: 19px;"></i>{{user.username}}</a></li>
+                    <li><a class="nav-link scrollto" href="{% url 'candi_profile' %}"><i class="bx bx-user-circle" style="padding-right: 7px; font-size: 19px;"></i>{{user.username}}</a></li>
                     <li><a class="nav-link scrollto" href="#services">Jobs</a></li>
                     <li><a class="nav-link scrollto" href="#">Education</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
@@ -93,13 +93,15 @@
                 </div>
 
                 <div class="row">
+                    {% for job in job %}
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
                       <div class="icon-box">
                         <div class="icon"><i class="bx bxl-digg"></i></div>
-                        <h4><a href="{% url 'can-exam' %}">Django Developer</a></h4>
+                        <h4><a href="{% url 'can-exam' job.id %}">{{ job.profile_name }}</a></h4>
                         <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
                       </div>
                     </div>
+                    {% endfor %}
                 </div>
 
             </div>
