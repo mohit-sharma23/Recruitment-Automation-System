@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects,Resume
-from Company.models import Job_Profiles
+from Company.models import Job_Profiles,skills
 from django.contrib.auth.models import User
 from django.contrib import messages 
 
@@ -45,7 +45,13 @@ def candi_regis(request):
 def candihome(request):
     user=request.user.username
     candidate=Candidate.objects.get(username=user)
-    # skills=Skill.objects.filter(candidateId=candidate)
+    cs=Skill.objects.filter(candidateId=candidate)
+    print(cs)
+    FilJobs=[]
+    for i in cs:
+        temp=list(skills.objects.filter(skills=i.skill))
+        print(temp)
+        FilJobs.append(temp)
     print('kk')
     job=Job_Profiles.objects.all()
     resume=Resume.objects.filter(candidateId=candidate)
