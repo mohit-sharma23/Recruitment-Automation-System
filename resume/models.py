@@ -45,6 +45,9 @@ class Projects(models.Model):
     prj_des=models.TextField(max_length=5000)
 
 
+class Resume(models.Model):
+    candidateId=models.ForeignKey(Candidate,related_name='resu',on_delete=models.CASCADE)
+
 
     # def get_absolute_url(self):
     #     return reverse("_detail", kwargs={"pk": self.pk}) 

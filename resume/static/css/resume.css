@@ -205,3 +205,24 @@ select{
     border: 2px solid black ;
   }
 
+
+  
+.hue{
+    position: absolute;
+}
+.heading{
+    font-size: 20px;
+    font-weight: bold;
+}
+.skill-name{
+    margin-bottom: 5px;
+}
+.left{
+    border-right: 3px solid black
+}
+.comp-name{
+    font-weight:500;
+}
+.dis{
+    display:none;
+}

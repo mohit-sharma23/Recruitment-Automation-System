@@ -135,4 +135,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 LOGIN_REDIRECT_URL = 'comphome'
 
 LOGIN_URL = 'login/'
+
+LOGOUT_REDIRECT_URL = ''
+LOGOUT_URL=''
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

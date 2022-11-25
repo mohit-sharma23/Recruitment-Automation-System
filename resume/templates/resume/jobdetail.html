@@ -24,8 +24,11 @@
         </div>
 
         <p class="mb-4"><span style="font-weight:bold">No of Openings :</span>{{ job.no_of_vacancies }}</p>
-
+        {% if resume %}
         <button class="btn btn-danger test btn-lg mb-4"><a href="{% url 'can-exam' job.id %}">Attempt Test</a></button>
+        {% else %}
+        <button class="btn btn-secondary test btn-lg mb-4">Attempt Test</button>
+        {% endif %}
     </div>
 </body>
 </html>

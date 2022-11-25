@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects
+from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects,Resume
 from Company.models import Job_Profiles
 from django.contrib.auth.models import User
 from django.contrib import messages 
@@ -44,12 +44,20 @@ def candi_regis(request):
 
 def candihome(request):
     user=request.user.username
-    # candidate=Candidate.objects.get(username=user)
+    candidate=Candidate.objects.get(username=user)
     # skills=Skill.objects.filter(candidateId=candidate)
     print('kk')
     job=Job_Profiles.objects.all()
+    resume=Resume.objects.filter(candidateId=candidate)
+    print(resume)
+    num_can=len(Candidate.objects.all())
+    num_res=len(Resume.objects.all())
+
     jobs={
-        'job':job
+        'job':job,
+        'resume':resume,
+        'num_can':num_can,
+        'num_res':num_res
     }
     # if(skills):
         # print(skills)
@@ -96,7 +104,11 @@ def create_resume(request):
                 skill=request.POST.getlist(temp)[0]
                 skills=Skill(candidateId=user,skill=skill)
                 skills.save()
-
+        CanRes=Resume.objects.filter(candidateId=user)
+        print(CanRes)
+        if CanRes.count() == 0:
+            resume=Resume(candidateId=user)
+            resume.save()
     return render(request, 'resume/createresume.html')
 
 def apply_job(request):
@@ -114,8 +126,51 @@ def candi_profile(request):
 def job_info(request,id):
     job=Job_Profiles.objects.get(id=id)
     comp=job.company_id.company_name
+    user=request.user.username
+    candidate=Candidate.objects.get(username=user)
+    resume=Resume.objects.filter(candidateId=candidate)
+    print(resume)
     context={
         'job':job,
-        'comp':comp
+        'comp':comp,
+        'resume':resume
     }
     return render(request,'resume/jobdetail.html',context)
+
+def update_resume(request):
+    user=Candidate.objects.get(username=request.user.username)
+    wrkExp=Work_Experience.objects.filter(candidateId=user)
+    courses=Course.objects.filter(candidateId=user)
+    prjs=Projects.objects.filter(candidateId=user)
+    skills=Skill.objects.filter(candidateId=user)
+    context={
+        'wrkExp':wrkExp,
+        'courses':courses,
+        'prjs':prjs,
+        'skills':skills
+    }
+    return render(request,'resume/updateresume.html',context)
+
+def del_exp(request):
+    user=Candidate.objects.get(username=request.user.username)
+    print('hello')
+    Work_Experience.objects.filter(candidateId=user).delete()
+    return redirect('update_resume')
+
+def del_course(request):
+    user=Candidate.objects.get(username=request.user.username)
+    print('hello')
+    Course.objects.filter(candidateId=user).delete()
+    return redirect('update_resume')
+
+def del_prj(request):
+    user=Candidate.objects.get(username=request.user.username)
+    print('hello')
+    Projects.objects.filter(candidateId=user).delete()
+    return redirect('update_resume')
+
+def del_skill(request):
+    user=Candidate.objects.get(username=request.user.username)
+    print('hello')
+    Skill.objects.filter(candidateId=user).delete()
+    return redirect('update_resume')

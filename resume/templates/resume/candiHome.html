@@ -46,7 +46,7 @@
                     <li><a class="nav-link scrollto" href="#services">Jobs</a></li>
                     <li><a class="nav-link scrollto" href="#">Education</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li><a class="getstarted scrollto" href="/signOut/">Log Out</a></li>
+                    <li><a class="getstarted scrollto" href="{% url 'logout-redirect' %}">Log Out</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -63,11 +63,18 @@
                     <h1>Get Your Dream Job</h1>
                     <h2>with some simple steps</h2>
                     <div class="container row mb-2">
+                        {% if resume.all %}
+                        <div class="col-6">
+                            <a href="{% url 'update_resume' %}" class="btn-get-started scrollto">Update Resume</a>
+                        </div>
+                        {% else %}
                         <div class="col-6">
                             <a href="resume/" class="btn-get-started scrollto">Create Resume</a>
                         </div>
+
+                        {% endif %}
                         <div class="col-6 ">
-                            <a href="{% url 'apply_job' %}" class="btn-get-started scrollto">Apply For Job</a>
+                            <a href="{% url 'apply_job' %}" class="btn-get-started scrollto">Your Applications</a>
                         </div>
                     </div>
                 </div>
@@ -91,6 +98,10 @@
                     <h2>Jobs</h2>
                     <p>serach job here</p>
                 </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                  </label>
 
                 <div class="row">
                     {% for job in job %}
@@ -116,13 +127,13 @@
                 <div class="row counters">
 
                     <div class="col-lg-3 col-6 text-center">
-                        <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1"
+                        <span data-purecounter-start="0" data-purecounter-end="{{num_can}}" data-purecounter-duration="1"
                             class="purecounter"></span>
                         <p>Candidates</p>
                     </div>
 
                     <div class="col-lg-3 col-6 text-center">
-                        <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
+                        <span data-purecounter-start="0" data-purecounter-end="{{num_res}}" data-purecounter-duration="1"
                             class="purecounter"></span>
                         <p>resumes</p>
                     </div>
