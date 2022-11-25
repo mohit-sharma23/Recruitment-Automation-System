@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects
-from Company.models import Job_Profiles
+from Company.models import Job_Profiles,skills
 from django.contrib.auth.models import User
 from django.contrib import messages 
 
@@ -44,9 +44,16 @@ def candi_regis(request):
 
 def candihome(request):
     user=request.user.username
-    # candidate=Candidate.objects.get(username=user)
-    # skills=Skill.objects.filter(candidateId=candidate)
-    print('kk')
+    candidate=Candidate.objects.get(username=user)
+    CandiSkills=Skill.objects.filter(candidateId=candidate)
+    print(CandiSkills)
+    FiltSkills=[]
+    for s in CandiSkills:
+        JobSkills=skills.objects.filter(skills=s.skill)
+        
+        print(JobSkills)
+        FiltSkills.append(JobSkills)
+    print(FiltSkills)
     job=Job_Profiles.objects.all()
     jobs={
         'job':job
@@ -56,6 +63,7 @@ def candihome(request):
     return render(request,'resume/candiHome.html',jobs)
 
 def create_resume(request):
+
     if request.method == "POST":
         print(request.POST)
         keys=list((request.POST).keys())
@@ -95,10 +103,14 @@ def create_resume(request):
                 project.save()
             if skill in temp:
                 skill=request.POST.getlist(temp)[0]
-                skills=Skill(candidateId=user,skill=skill)
-                skills.save()
-
-    return render(request, 'resume/createresume.html')
+                s=Skill(candidateId=user,skill=skill)
+                s.save()
+    allSkills=skills.objects.values('skills').distinct()
+    # print(allSkills)
+    context={
+        'skills':allSkills,
+    }
+    return render(request, 'resume/createresume.html',context)
 
 def apply_job(request):
     return render(request,'resume/jobs.html')
