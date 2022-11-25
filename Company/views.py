@@ -83,10 +83,13 @@ def companyhome(request):
 def ADD(request):
 
     if request.method=='POST':
+        
         job_role=request.POST.get('jobrole')
         job_des=request.POST.get('jobdes')
         vacancies=request.POST.get('vacancies')
         job_skills=request.POST.get('skills')
+        keys=list((request.POST).keys())
+        print(keys)
         company_id=Companies.objects.get(companyuserid=request.user.username)
         #job_profile_id=Job_Profiles.objects.get(id=i_d)
         
@@ -95,10 +98,20 @@ def ADD(request):
         data.save()
         id=data.id
         job_profile_id=Job_Profiles.objects.get(id=id)
+        
+        for key in keys:
+            temp=str(key)
+            skill='skill'
+            if skill in temp:
+                skill=request.POST.getlist(temp)[0]
+                data2=skills(skills=skill,company_id=company_id,job_profile_id=job_profile_id)
+                data2.save()
 
-        data2=skills(skills=job_skills,company_id=company_id,job_profile_id=job_profile_id)
+
+
+    
        
-        data2.save()
+    
         return redirect('comphome')
     else:
         info=Job_Profiles.objects.values('pk','profile_name','job_info','no_of_vacancies')

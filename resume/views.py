@@ -59,6 +59,7 @@ def create_resume(request):
     if request.method == "POST":
         print(request.POST)
         keys=list((request.POST).keys())
+        print(keys)
         user=Candidate.objects.get(username=request.user.username)
         for key in keys:
             temp=str(key)
