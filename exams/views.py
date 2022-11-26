@@ -56,6 +56,7 @@ def form(request,id):
                     questions.save()
                     qn_id=questions.id
                     print(questions.id)
+        return redirect('job_details', pk=id)
 
     e=ExamForm
     o=OptionForm
@@ -69,7 +70,7 @@ def form(request,id):
 def can_exam(request,id):
     question=Questions.objects.filter(jobId=id)
     print(question)
-    dur=str(ExamDuration.objects.get(jobId=id).time)
+    dur=str(ExamDuration.objects.filter(jobId=id)[0].time)
     # dur=dur[0:-3]
     qn_opts=[]
     for i in question:
@@ -81,9 +82,13 @@ def can_exam(request,id):
     #     'qn_opts':qn_opts
     # }
     f=zip(question,qn_opts)
+    Test=Questions.objects.filter(jobId=id)
+    TotalScore=0
+    for t in Test:
+        TotalScore+=t.score
     # print(qn_opts)
     
-    return render(request,'exams/canditest.html',{'f':f,'dur':dur,'id':id})
+    return render(request,'exams/canditest.html',{'f':f,'dur':dur,'id':id,'TotalScore':TotalScore})
 
 def exam_res(request,id):
     print(request.method)

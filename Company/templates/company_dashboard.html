@@ -28,36 +28,20 @@
     </div>
 
     <div class="items">
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Dashboard</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Test</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Tables</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Forms</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Candidate</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'login' %}">Test</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Settings</a></li>
-
+        <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'comphome' %}">Dashboard</a></li>
+        <li style="background-color:red; position: absolute;width:100%; bottom: 0;"><i class="fa-regular fa-chart-line"></i><a href="{% url 'logout-redirect' %}" style="color:white">LogOut</a></li>
 
     </div>
     </section>
-    <section id="header">
+    <section class="section1">
        
 
         <div class="navigation">
-            <div class="n1">
-                <div class="search">
-                    <i class="far fa-search"></i>
-                    <input type="text" placeholder="search">
-                    <button type="button" class="btn btn-success btn-sm">Search</button>
-                   
-                </div>
-                
-            </div>
+           
 
             <div class="profile">
                 <i class="far fa-bell"></i>
-                <a class="btn btn-danger btn-sm mr-3" href="/signOut/">Log Out</a>
                 <h4 class="mr-5">{{user.username}}</h4>
-                <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
             </div>
         </div>
        
@@ -68,33 +52,19 @@
                 <i class="fas fa-users"></i>
                 <div>
                     <h3>500</h3>
-                    <span>NO OF candidate</span>
+                    <span>No Of Job Roles</span>
                 </div>
             </div>
 
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3></h3>
-                    <span>HI</span>
-                </div>
-            </div>
 
             <div class="box-val">
                 <i class="fas fa-users"></i>
                 <div>
                     <h3>500</h3>
-                    <span>NO oF Aplicants</span>
+                    <span>No Of Applicants</span>
                 </div>
             </div>
 
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3>Hello</h3>
-                    <span>HI</span>
-                </div>
-            </div>
         </div>
 
         <div class="board">
@@ -164,7 +134,7 @@
 
         <div class="row">
             <div class="col-md-12 text-right">
-            <button type="button" data-toggle="modal" data-target="#add" class="btn btn-success mr-5 btn-sm">Add</button>
+            <button type="button" data-toggle="modal" data-target="#add" class="btn btn-success pr-0 mr-5 btn-sm">Add</button>
             </div>
         </div>
        
@@ -176,8 +146,8 @@
             <div class="card-body">
                 <div class="icon"><i class="bx bxl-redux"></i></div>
               <h5 class="card-title">{{i.profile_name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Job Description</h6>
-              <p class="card-text">{{i.job_info}}</p>
+              <h6 class="card-subtitle mb-2 text-muted">No Of Vacancies:</h6>
+              <p class="card-text">{{i.no_of_vacancies}}</p>
               <a href="{% url 'job_details' i.id %}" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
               <a href="{% url 'delete' i.id %}"  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
             </div>

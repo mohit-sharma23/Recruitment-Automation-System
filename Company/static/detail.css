@@ -11,7 +11,9 @@ font-family: 'Poppins',sans-serif;
 body {
     background: #f5f5f5;
 }
-
+.one{
+    position:absolute
+}
  #menu{
     background: #111827;
     width: 300px ;
@@ -241,7 +243,7 @@ body::-webkit-scrollbar{
 
 
 .section2{
-    margin-left: 300px;
+    /* margin-left: 300px; */
     border:3px solid white;
     border-radius: 30px;
 }
@@ -263,7 +265,7 @@ body::-webkit-scrollbar{
     border-radius: 4px;
 }
 .section2 .navigation .search i{
-margin-right: 14px;
+/* margin-right: 14px; */
 }
 .section2 .navigation .search input {
 border: none;
@@ -277,12 +279,12 @@ font-size: 14px;
     align-items: center;
 }
 .section2 .navigation .profile i{
-    margin-right: 20px;
+    /* margin-right: 20px; */
     font-size: 19px;
     font-weight: 400px;
 }
 .section2 .navigation .profile img{
-    width: 32px;
+    /* width: 32px; */
     height: 100%;
     border-radius: 50%;
 }

@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
 from resume.models import resumedata,Candidate,Work_Experience,Course,Skill,Projects,Resume
-from Company.models import Job_Profiles,skills
+from Company.models import Job_Profiles,skills,shortList
+from exams.models import ExamResult
 from django.contrib.auth.models import User
-from django.contrib import messages 
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -46,32 +48,34 @@ def candihome(request):
     user=request.user.username
     candidate=Candidate.objects.get(username=user)
     CandiSkills=Skill.objects.filter(candidateId=candidate)
-    print(CandiSkills)
     FiltSkills=[]
     for s in CandiSkills:
         JobSkills=skills.objects.filter(skills=s.skill)
-        
-        print(JobSkills)
-        FiltSkills.append(JobSkills)
-    print(FiltSkills)
+        for i in JobSkills:
+            FiltSkills.append(i.job_profile_id)
+    # print(FiltSkills)
+    FSkills=set(FiltSkills)
+    print(FSkills)
     job=Job_Profiles.objects.all()
     resume=Resume.objects.filter(candidateId=candidate)
-    print(resume)
+    # print(resume)
     num_can=len(Candidate.objects.all())
     num_res=len(Resume.objects.all())
-
+    num_placed=len(ExamResult.objects.filter(status=True))
     jobs={
         'job':job,
         'resume':resume,
         'num_can':num_can,
-        'num_res':num_res
+        'num_res':num_res,
+        'FSkills':FSkills,
+        'num_placed':num_placed
     }
     # if(skills):
         # print(skills)
     return render(request,'resume/candiHome.html',jobs)
 
 def create_resume(request):
-
+    
     if request.method == "POST":
         print(request.POST)
         keys=list((request.POST).keys())
@@ -111,44 +115,51 @@ def create_resume(request):
                 project.save()
             if skill in temp:
                 skill=request.POST.getlist(temp)[0]
-                skills=Skill(candidateId=user,skill=skill)
-                skills.save()
+                s=Skill(candidateId=user,skill=skill)
+                s.save()
         CanRes=Resume.objects.filter(candidateId=user)
         print(CanRes)
         if CanRes.count() == 0:
             resume=Resume(candidateId=user)
             resume.save()
+        return redirect('candihome')
 
-    allSkills=skills.objects.values('skills').distinct()
-    # print(allSkills)
-    context={
-        'skills':allSkills,
-    }
-    return render(request, 'resume/createresume.html',context)
+    else:
+        allSkills=skills.objects.values('skills').distinct()
+        # print(allSkills)
+        context={
+            'skills':allSkills,
+        }
+        return render(request, 'resume/candiHome.html',context)
 
 def apply_job(request):
-    return render(request,'resume/jobs.html')
+    user=request.user.username
+    candidate=Candidate.objects.get(username=user)
+    jobs=ExamResult.objects.filter(candidateId=candidate)
+    context={
+        'jobs':jobs,
+        'candidate':candidate
+    }
+    return render(request,'resume/jobs.html',context)
 
 def candi_profile(request):
     candi=Candidate.objects.get(username=request.user.username)
-    use={
-        'username':candi.username,
-        'email':candi.candidate_email,
-        'name':candi.candidate_name,
-    }
-    return render(request,'resume/candi_profile.html',use)
+    return render(request,'resume/candi_profile.html',{'candi':candi})
 
+@login_required(login_url='login')
 def job_info(request,id):
     job=Job_Profiles.objects.get(id=id)
     comp=job.company_id.company_name
     user=request.user.username
     candidate=Candidate.objects.get(username=user)
     resume=Resume.objects.filter(candidateId=candidate)
+    s=skills.objects.filter(job_profile_id=job)
     print(resume)
     context={
         'job':job,
         'comp':comp,
-        'resume':resume
+        'resume':resume,
+        's':s,
     }
     return render(request,'resume/jobdetail.html',context)
 
@@ -157,12 +168,16 @@ def update_resume(request):
     wrkExp=Work_Experience.objects.filter(candidateId=user)
     courses=Course.objects.filter(candidateId=user)
     prjs=Projects.objects.filter(candidateId=user)
-    skills=Skill.objects.filter(candidateId=user)
+    s=Skill.objects.filter(candidateId=user)
+    allSkills=skills.objects.values('skills').distinct()
+
     context={
         'wrkExp':wrkExp,
         'courses':courses,
         'prjs':prjs,
-        'skills':skills
+        'skills':s,
+        'allskills':allSkills,
+
     }
     return render(request,'resume/updateresume.html',context)
 
@@ -189,3 +204,11 @@ def del_skill(request):
     print('hello')
     Skill.objects.filter(candidateId=user).delete()
     return redirect('update_resume')
+
+
+def inter_offer(request,id):
+    job=Job_Profiles.objects.get(id=id)
+    context={
+        'job':job,
+    }
+    return render(request,'resume/interview_offer.html',context)

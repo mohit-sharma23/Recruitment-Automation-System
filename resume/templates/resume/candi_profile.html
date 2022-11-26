@@ -18,13 +18,13 @@
     <header id="header" class="fixed-top">
         <div class="container-xxl d-flex align-items-center justify-content-between">
 
-            <h1 class="logo"><a href="landingpage.html">ARS</a></h1>
+            <h1 class="logo"><a href="{% url 'candihome' %}">ARS</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo"><img src="../static/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="getstarted scrollto" href="/candidate_home">Dashboard</a></li>
+                    <li><a class="getstarted scrollto" href="{% url 'candihome' %}">Home</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -33,11 +33,7 @@
     </header><!-- End Header -->
     <div class="container-xxl px-4 mt-5">
         <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-            <a class="nav-link active ms-0"
-                href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details"
-                target="__blank">Profile</a>
-        </nav>
+
         <hr class="mt-0 mb-4">
         <div class="row">
             <div class="col-xl-4">
@@ -66,12 +62,12 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="{{ form.username.id_for_label }}" disabled>Username</label>
                                     <input class="form-control" id="inputUsername" type="text"
-                                        placeholder="Enter your username" value="{{user.username}}">
+                                        placeholder="Enter your username" value="{{candi.username}}">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="{{ form.email.id_for_label }}">Email</label>
                                     <input class="form-control" id="inputEmailAddress" type="email"
-                                        placeholder="Enter your email address" value="{{user.email}}">
+                                        placeholder="Enter your email address" value="{{candi.candidate_email}}">
                                 </div>
                             </div>
                             <!-- Form Row-->
@@ -80,7 +76,7 @@
                                 <div class="col-md-12">
                                     <label class="small mb-1" for="{{ form.f_name.id_for_label }}">Full name</label>
                                     <input class="form-control" id="inputFirstName" type="text"
-                                        placeholder="Enter your first name" value="{{user.username  | capfirst}}">
+                                        placeholder="Enter your first name" value="{{candi.candidate_name}}">
                                 </div>
                                 <!-- Form Group (last name)-->
                                 <!-- <div class="col-md-6">
@@ -92,7 +88,7 @@
                             <div class="col-md-6">
                                 <label class="small mb-1" for="{{ form.mobile.id_for_label }}">Contact Number</label>
                                 <input class="form-control" id="inputConatact" type="text"
-                                    placeholder="Enetr your conatct number " value="">
+                                    placeholder="Enetr your conatct number " value="{{candi.phno}}">
                             </div>
 
                             <div class="row gutters my-1">
@@ -101,35 +97,23 @@
                                     <div class="form-group">
                                         <label for="{{ form.address.id_for_label }}">Enter your address</label>
                                         <textarea type="name" class="form-control" id="Street"
-                                            placeholder="Enter Address"></textarea>
+                                            placeholder="Enter Address" value="{{ candi.address }}"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row gutters">
-                                <!-- <div class="card-header my-3">HSC</div>
-                                <div class="row gx-3 mb-3">
-                                    <div class="form-group col-md-6">
-                                        <label for="{{ form.hsc_school_name.id_for_label }}">School Name</label>
-                                        <input type="name" class="form-control" id="Street"
-                                            placeholder="Enter School Name"></input>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="{{ form.hsc_marks.id_for_label }}">Marks</label>
-                                        <input type="name" class="form-control" id="Street"
-                                            placeholder="Enter Marks"></input>
-                                    </div>
-                                </div> -->
+
                                 <div class="card-header my-3">Current</div>
                                 <div class="row gx-3 mb-3">
                                     <div class="form-group col-md-6">
                                         <label for="{{ form.current_college_name.id_for_label }}">College Name</label>
                                         <input type="name" class="form-control" id="Street"
-                                            placeholder="Enter College Name"></input>
+                                            placeholder="Enter College Name" value="{{candi.college}}"></input>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="{{ form.college_cgpa.id_for_label }}">CGPA</label>
                                         <input type="name" class="form-control" id="Street"
-                                            placeholder="Enter CGPA"></input>
+                                            placeholder="Enter CGPA" value="{{ candi.cgpa }}"></input>
                                     </div>
                                 </div>
                             </div>

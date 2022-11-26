@@ -42,28 +42,66 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="/candidate_profile/"><i class="bx bx-user-circle" style="padding-right: 7px; font-size: 19px;"></i>{{user.username}}</a></li>
-                    <li><a class="nav-link scrollto" href="#services">Jobs</a></li>
-                    <li><a class="nav-link scrollto" href="#">Education</a></li>
-                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li><a class="getstarted scrollto" href="/signOut/">Log Out</a></li>
+                    <li><a class="nav-link scrollto" href="{% url 'candi_profile' %}"><i class="bx bx-user-circle" style="padding-right: 7px; font-size: 19px;"></i>{{user.username}}</a></li>
+                    <li><a class="nav-link scrollto" href="{% url 'candihome' %}">Jobs</a></li>
+
+                    <li><a class="getstarted scrollto" href="{% url 'logout-redirect' %}">Log Out</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
 
         </div>
     </header><!-- End Header -->
-    <h1>Hello</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <p>king</p>
-            </div>
-            <div class="col-8">
-                <p>hello</p>
-            </div>
+    <section  id="hero" class="d-flex align-items-center" style="margin-left:10%" >
+        <div class=" table-responsive w-75">
+            <table  class="table table-bordered table-hover table-striped">
+                <thead class="pb-5">
+                  <tr class="bg-dark text-white ">
+                    <th style="width: 8%;" scope="col">No</th>
+                    <th style="width: 17%;" scope="col">Job Profile</th>
+                    <th style="width: 20%;" scope="col">Company Name</th>
+                    <th style="width: 20%;" scope="col">No of Vacancies</th>
+                    <th style="width: 20%;" scope="col">Status</th>
+                    <th style="width: 20%;" scope="col">Messages</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for t in jobs %}
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{t.jobId.profile_name}}</td>
+                    <td>{{t.companyId.company_name}}</td>
+                    {%if t.jobId.no_of_vacancies %}
+                    <td>{{t.jobId.no_of_vacancies}}</td>
+                    {% else %}
+                    <td>No Info</td>
+                    {% endif %}
+                    {% if t.status %}
+                    <td class="d-flex">
+                        <button type="submit" class="btn btn-success btn-sm">Accepted</button></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'inter_offer' t.jobId.id %}"><button type="submit" class="btn btn-info btn-sm">Message</button></a>
+                    </td>
+                    {% else %}
+                    <td class="">
+                        <button type="submit" class="btn btn-danger btn-sm">Pending</button></a>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-secondary btn-sm">Message</button>
+                    </td>
+
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+    
+            
         </div>
-    </div>
+    </section>
+
 
 </body>
 </html>

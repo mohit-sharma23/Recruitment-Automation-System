@@ -1,7 +1,8 @@
 from tkinter import CASCADE
 from django.db import models
-from Company.models import *
 from resume.models import Candidate
+from Company.models import *
+
 # Create your models here.
 class Questions(models.Model):
     companyId=models.ForeignKey(Companies,related_name='company',on_delete=models.CASCADE)
@@ -27,3 +28,4 @@ class ExamResult(models.Model):
     jobId=models.ForeignKey(Job_Profiles,related_name='joR',on_delete=models.CASCADE,default=13)
     candidateId=models.ForeignKey(Candidate,related_name='can',on_delete=models.CASCADE)
     totalScore=models.FloatField()
+    status=models.BooleanField(default=False)

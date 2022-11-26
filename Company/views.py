@@ -8,9 +8,9 @@ from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
-from Company.models import Companies,Job_Profiles
+from Company.models import Companies,Job_Profiles,shortList
 from resume.models import Candidate,Course,Skill,Work_Experience,Projects
-from exams.models import ExamResult
+from exams.models import ExamResult,Questions
 
 # Create your views here.
 
@@ -136,9 +136,17 @@ class JobDetailView(LoginRequiredMixin, DetailView):
         print(self.kwargs['pk'])
         id=Job_Profiles.objects.get(id=self.kwargs['pk'])
         print("KKKKKK")
+        Test=Questions.objects.filter(jobId=id)
+        TotalScore=0
+        for t in Test:
+            TotalScore+=t.score
+        print(TotalScore)
         # print(skills.objects.filter(job_profile_id=id))
         context['skills']=skills.objects.filter(job_profile_id=id)
-        context['testres']=ExamResult.objects.filter(jobId=id)
+        context['testres']=ExamResult.objects.filter(jobId=id).order_by('-totalScore')
+        context['num']=len(ExamResult.objects.filter(jobId=id))
+        context['TotalScore']=TotalScore
+        context['jobId']=id.id
         return context
 
 def disresume(request):
@@ -152,3 +160,32 @@ def disresume(request):
         courses=list(Course.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
         prjs=list(Projects.objects.filter(candidateId=Candidate.objects.get(id=candi)).values())
         return JsonResponse({'username':candidate.candidate_name,'college':candidate.college,'cgpa':candidate.cgpa,'skills':skills,'workExp':workExp,'courses':courses,'prjs':prjs})
+
+
+
+def accept(request):
+    print(request.POST)
+    if request.method=='POST':
+        print(request.POST['id'])
+        id=request.POST['id']
+        jobId=request.POST['jobId']
+        check=request.POST['check']
+        print(check)
+        print(id)
+        print(jobId)
+        c=Candidate.objects.get(id=id)
+        j=Job_Profiles.objects.get(id=jobId)
+        if check=="1":
+            s=shortList(candidate_id=c,job_id=j)
+            s.save()
+            s=ExamResult.objects.get(candidateId=c,jobId=j)
+            s.status=True
+            s.save()
+            return JsonResponse({"bool":True})
+        else:
+            s=shortList.objects.get(candidate_id=c,job_id=j)
+            s.delete()
+            s=ExamResult.objects.get(candidateId=c,jobId=j)
+            s.status=False
+            s.save()
+            return JsonResponse({"bool":False})

@@ -42,8 +42,7 @@
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto" href="#services">Jobs</a></li>
-                    <li><a class="nav-link scrollto" href="#">Education</a></li>
-                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -81,6 +80,30 @@
 
     <main id="main">
 
+
+        <section id="services" class="services section-bg">
+            <div class="container">
+
+                <div class="section-title">
+                    <span>Jobs</span>
+                    <h2>Jobs</h2>
+                    <p>serach job here</p>
+                </div>
+                <div class="row mb-3 allprofiles" style="width:100% !important">
+                    {% for job in job %}
+                    <div class="col-lg-4 col-md-6 align-items-stretch mt-4 mt-md-0">
+                      <div class="icon-box">
+                        <div class="icon"><i class="bx bxl-digg"></i></div>
+                        <h4><a href="{% url 'job_info' job.id %}">{{ job.profile_name }}</a></h4>
+                        <p>By {{job.company_id.company_name}}</p>
+                      </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </section>
 
 
 
@@ -120,77 +143,40 @@
         </section><!-- End Counts Section -->
 
         <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
-            <div class="container">
+        <footer id="footer">
 
-                <div class="section-title">
-                    <span>Contact</span>
-                    <h2>Contact</h2>
-                    <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-lg-5 d-flex align-items-stretch">
-                        <div class="info">
-                            <div class="address">
-                                <i class="bi bi-geo-alt"></i>
-                                <h4>Location:</h4>
-                                <p>A108 Adam Street, New York, NY 535022</p>
-                            </div>
-
-                            <div class="email">
-                                <i class="bi bi-envelope"></i>
-                                <h4>Email:</h4>
-                                <p>info@example.com</p>
-                            </div>
-
-                            <div class="phone">
-                                <i class="bi bi-phone"></i>
-                                <h4>Call:</h4>
-                                <p>+1 5589 55488 55s</p>
-                            </div>
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41389.212712881534!2d72.89444462807899!3d19.051127516230665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8cb60956119%3A0x714fafb0602b68b4!2sSiddhivinayak%20Temple!5e0!3m2!1sen!2sin!4v1655274066329!5m2!1sen!2sin"
-                                width="450" height="200" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="footer-top">
+    
+                <div class="container">
+    
+                    <div class="row  justify-content-center">
+                        <div class="col-lg-6">
+                            <h3>ARS</h3>
+                            <p>Get Your Dream Job
+                                with some simple steps</p>
                         </div>
-
                     </div>
-
-                    <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-                        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="name">Your Name</label>
-                                    <input type="text" name="name" class="form-control" id="name" required>
-                                </div>
-                                <div class="form-group col-md-6 mt-3 mt-md-0">
-                                    <label for="name">Your Email</label>
-                                    <input type="email" class="form-control" name="email" id="email" required>
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="name">Subject</label>
-                                <input type="text" class="form-control" name="subject" id="subject" required>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="name">Message</label>
-                                <textarea class="form-control" name="message" rows="10" required></textarea>
-                            </div>
-                            <div class="my-3">
-                                <div class="loading">Loading</div>
-                                <div class="error-message"></div>
-                                <div class="sent-message">Your message has been sent. Thank you!</div>
-                            </div>
-                            <div class="text-center"><button type="submit">Send Message</button></div>
-                        </form>
+    
+                    <div class="row footer-newsletter justify-content-center">
+                        <div class="col-lg-6">
+                            <form action="" method="post">
+                                <input type="email" name="email" placeholder="Enter your Email"><input type="submit"
+                                    value="Subscribe">
+                            </form>
+                        </div>
                     </div>
-
+    
+                    <div class="social-links">
+                        <a href="www.twitter.com" class="twitter"><i class="bx bxl-twitter"></i></a>
+                        <a href="www.facebook.com" class="facebook"><i class="bx bxl-facebook"></i></a>
+                        <a href="www.instagram.com" class="instagram"><i class="bx bxl-instagram"></i></a>
+                        <a href="www.google.com" class="google-plus"><i class="bx bxl-skype"></i></a>
+                        <a href="www.linkedin.com" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                    </div>
+    
                 </div>
-
             </div>
-        </section><!-- End Contact Section -->
+        </footer><!-- End Contact Section -->
 
     </main><!-- End #main -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

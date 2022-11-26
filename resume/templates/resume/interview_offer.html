@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offer_Letter</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;600;700&display=swap');
+</style>
+<body>
+    <!-- © 2018 Shift Technologies. All rights reserved. -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;background-color:#f9f9f9"
+        id="bodyTable">
+        <tbody>
+            <tr>
+                <td style="padding-right:10px;padding-left:10px;" align="center" valign="top" id="bodyCell">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="wrapperBody"
+                        style="max-width:800px; margin-top: 20px;">
+                        <tbody>
+                            <tr>
+                                <td style="background-color:#14c871;font-size:1px;line-height:3px;"
+                                    class="topBorder" height="3">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="800px" class="tableCard"
+                                        style="background-color:#fff;border-color:#e5e5e5;border-style:solid;border-width:0 1px 1px 1px; padding-left: 10px; padding-right: 10px; ">
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding-top: 60px; padding-bottom: 20px;" align="center"
+                                                    valign="middle" class="emailLogo">
+                                                    <a href="#" style="text-decoration:none; font-size: 2.5rem; color: #000;" target="_blank">
+                                                        ARS
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 5px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px;"
+                                                    align="center" valign="top" class="mainTitle">
+                                                    <h2 class="text"
+                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:28px;font-weight:700;font-style:normal;letter-spacing:normal;line-height:36px;text-transform:none;text-align:center;padding:0;margin:0">
+                                                        Hi "{{request.user.username}}"</h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:20px;padding-right:20px" align="left"
+                                                    valign="top" class="containtTable ui-sortable">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                                        class="tableDescription">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        <strong>Subject:</strong style="font-weight:700"> Invitation to Interview</p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:20px;padding-right:20px" align="left"
+                                                    valign="top" class="containtTable ui-sortable">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                                        class="tableDescription">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        Dear Applicant {{request.user.username}} </p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        Thank you for applying for the position of {{job.profile_name}} with {{job.company_id.company_name}} Company in {{job.company_id.city}}, {{job.company_id.state}}.</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        We would like to invite you to come to our office to interview for the position. Your interview time will be mailed to you on your Email Id</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        Please call me at {{job.company_id.company_contact_no}} or email me at {{job.company_id.company_email}} if you have any questions or need to reschedule.</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        Sincerely,</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        {{job.company_id.company_name}}</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        --------------------</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 20px;" align="left"
+                                                                    valign="top" class="description">
+                                                                    <p class="text"
+                                                                        style="color:#000;font-family:'Nunito Sans', sans-serif;font-size:14px;font-weight:400; font-size:1.1em; font-style:normal;letter-spacing:normal;line-height:22px;text-transform:none;text-align:left;padding:0;margin:0">
+                                                                        {{job.company_id.companyuserid}} <br>
+                                                                        {{job.company_id.company_name}}<br>
+                                                                        {{job.company_id.city}}, {{job.company_id.state}}<br>
+                                                                        {{job.company_id.company_contact_no}} <br>
+                                                                        {{job.company_id.company_email}} </p> <br>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                                        class="tableButton">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-top:20px;padding-bottom:20px"
+                                                                    align="center" valign="top">
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                        align="center">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="background-color: #14c871; padding: 12px 35px; border-radius: 50px;"
+                                                                                    align="center" class="ctaButton"> <a
+                                                                                        href="{% url 'apply_job' %}"
+                                                                                        style="color:#fff;font-family:'Nunito Sans', sans-serif;font-size:13px;font-weight:600;font-style:normal;letter-spacing:1px;line-height:20px;text-transform:uppercase;text-decoration:none;display:block"
+                                                                                        target="_blank"
+                                                                                        class="text">Okay</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size:1px;line-height:1px" height="20">&nbsp;</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="space">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-size:1px;line-height:1px" height="30">&nbsp;</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 from django.db import models
-from Company.models import Companies
+# from Company.models import Companies
 # Create your models here.
 class resumedata(models.Model):
     name = models.CharField(max_length=20000)

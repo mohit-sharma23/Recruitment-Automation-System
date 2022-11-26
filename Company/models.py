@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from resume.models import Candidate
 
 
 # Create your models here.
@@ -37,7 +38,9 @@ class skills(models.Model):
     def get_instance(self):
         return self
 
-
+class shortList(models.Model):
+    job_id=models.ForeignKey(Job_Profiles,related_name='job_profile_id',on_delete=models.CASCADE)
+    candidate_id=models.ForeignKey(Candidate,related_name='candi_id',on_delete=models.CASCADE)
 
 
 

@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 
 from .views import home
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('login/',auth_views.LoginView.as_view(template_name='Recruitment_management2/templates/Recruitment_management2/company.html'),name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='Recruitment_management2/templates/Recruitment_management2/mainhome.html'), name='logout-redirect'),
     path('',home,name='home'),
