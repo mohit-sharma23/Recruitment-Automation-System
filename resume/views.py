@@ -40,7 +40,7 @@ def candi_regis(request):
         u=User(username=username,email=candidate_email,password=pass1)
         u.set_password(pass1)
         u.save()
-        return redirect('login/')
+        return redirect('login')
 
     return render(request,'resume/candiRegist.html')
 
@@ -124,13 +124,13 @@ def create_resume(request):
             resume.save()
         return redirect('candihome')
 
-    else:
-        allSkills=skills.objects.values('skills').distinct()
-        # print(allSkills)
-        context={
-            'skills':allSkills,
-        }
-        return render(request, 'resume/candiHome.html',context)
+    # else:
+    allSkills=skills.objects.values('skills').distinct()
+    # print(allSkills)
+    context={
+        'skills':allSkills,
+    }
+    return render(request, 'resume/createresume.html',context)
 
 def apply_job(request):
     user=request.user.username
