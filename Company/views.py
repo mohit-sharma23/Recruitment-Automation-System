@@ -75,7 +75,12 @@ def companyhome(request):
         comp=Companies.objects.get(companyuserid=user)
         # info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
         info=Job_Profiles.objects.filter(company_id=comp)
-        return render(request,'company_dashboard.html',{'company_info':info})
+        applicants=0
+        for i in info:
+            temp=ExamResult.objects.filter(jobId=i.id)
+            applicants+=len(temp)
+        count=len(info)
+        return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants})
     return redirect('candihome')
     # return render(request,'resume/candiHome.html')
 

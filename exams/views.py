@@ -63,6 +63,7 @@ def form(request,id):
     param={
         'e':e,
         'o':o,
+        'id':id,
     }
     return render(request,'exams/test.html',param)
 
