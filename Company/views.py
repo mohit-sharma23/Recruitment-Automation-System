@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from Company.models import Companies,Job_Profiles,shortList
 from resume.models import Candidate,Course,Skill,Work_Experience,Projects
-from exams.models import ExamResult,Questions
+from exams.models import ExamResult,Questions,Options,Answers,ExamDuration
 
 # Create your views here.
 
@@ -195,3 +195,10 @@ def accept(request):
             s.status=False
             s.save()
             return JsonResponse({"bool":False})
+
+
+def deltest(request,id):
+    Questions.objects.filter(jobId=id).delete()
+    ExamDuration.objects.filter(jobId=id).delete()
+    # questions.delete()
+    return redirect('job_details', id)

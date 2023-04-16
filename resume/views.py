@@ -23,17 +23,17 @@ def candi_regis(request):
 
 
         if Candidate.objects.filter(username=username):
-            messages.error(request,"Company already exit please try diffrent id")
+            messages.error(request,"Candidate already exit please try diffrent id")
             print("1")
-            return redirect('company_registration')
+            return redirect('candi_regis')
         if Candidate.objects.filter(candidate_email=candidate_email):
-            messages.error(request,"Company email id is already exit!")
+            messages.error(request,"Candidate email id is already exit!")
             print("2")
-            return redirect('company_registration')
+            return redirect('candi_regis')
         if pass1 != pass2:
             messages.error(request, "Passwords didnt match!")
             print("3")
-            return redirect('company_registration')
+            return redirect('candi_regis')
 
         candidate=Candidate(candidate_name=candidate_name,candidate_email=candidate_email,pass1=pass1,pass2=pass2,username=username,phno=phno,address=address,college=college,cgpa=cgpa)
         candidate.save()

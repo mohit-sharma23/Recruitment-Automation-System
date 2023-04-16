@@ -109,7 +109,7 @@
                 <div class="row mb-3 allprofiles" style="width:100% !important">
                     <h3>All Job Profiles :</h3>
                     {% for job in job %}
-                    <div class="col-lg-4 col-md-6 align-items-stretch mt-4 mt-md-0">
+                    <div class="col-lg-4 col-md-6 align-items-stretch mt-4 mt-md-0 mb-4">
                       <div class="icon-box">
                         <div class="icon"><i class="bx bxl-digg"></i></div>
                         <h4><a href="{% url 'job_info' job.id %}">{{ job.profile_name }}</a></h4>

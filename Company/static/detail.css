@@ -60,8 +60,19 @@ body {
     cursor: pointer;
     transition: 0.3s ease;
  }
- #menu .items li:nth-child(1){
+ /* #menu .items li:nth-child(1){
     border-left: 4px solid #fff;
+ } */
+ .dashboard{
+    border-left: 4px solid #fff;
+ }
+ .t1{
+    border-left: 4px solid #fff;
+
+ }
+ .d1{
+    border-left: 4px solid #fff;
+
  }
 
  #menu .items li:hover i,

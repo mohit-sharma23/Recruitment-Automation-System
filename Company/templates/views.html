@@ -26,13 +26,13 @@
       <section class="" id="menu">
         <div class="logo">
             <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
-            <h2>Technobit</h2>
+            <h2>ARS</h2>
         </div>
 
         <div class="items">
-            <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'comphome' %}">Dashboard</a></li>
-            <li class="description" style="color:gray"><i class="fa-regular fa-chart-line"></i>Job Description</li>
-            <li class="test" style="color:gray"><i class="fa-regular fa-chart-line"></i>Test</li>
+            <li><i class="fa-regular fa-chart-line "></i><a href="{% url 'comphome' %}">Dashboard</a></li>
+            <li class="description " style="color:gray"><i class="fa-regular fa-chart-line"></i>Job Description</li>
+            <li class="test t1" style="color:gray"><i class="fa-regular fa-chart-line"></i>Test</li>
             <li style="background-color:red; position: absolute;width:100%; bottom: 0;"><i class="fa-regular fa-chart-line"></i><a href="{% url 'logout-redirect' %}" style="color:white">LogOut</a></li>
 
 
@@ -106,7 +106,8 @@
 
 
     <div class="row  mt-5">
-        <a href="{% url 'form' object.id %}" class="btn  btn-primary">Add Test</a>
+        <a href="{% url 'form' object.id %}" class="btn  btn-primary mr-3">Add Test</a>
+        <a href="{% url 'deltest' object.id %}" class="btn  btn-danger">Delete Test</a>
     </div>
    
 <div class="row mt-5 ">
@@ -222,10 +223,16 @@
   test.addEventListener('click',function(){
     tab.forEach(t=>t.classList.remove('hide'));
     details.classList.add('hide');
+    description.classList.remove('d1')
+    test.classList.add('t1')
+
+    
   })
   description.addEventListener('click',function(){
     tab.forEach(t=>t.classList.remove('hide'));
+    description.classList.add('d1')
     testdetails.classList.add('hide');
+    test.classList.remove('t1')
   })
   // $(document).ready(function(){
     var body = document.getElementsByTagName('body');
