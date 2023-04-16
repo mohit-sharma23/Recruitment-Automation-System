@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'exams',
     'resume',
     'Company',
+    'AdminPanel'
 ]
 
 MIDDLEWARE = [
