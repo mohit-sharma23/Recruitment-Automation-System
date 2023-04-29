@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from resume.models import Candidate
-
+from datetime import datetime
 
 # Create your models here.
 
@@ -18,14 +18,20 @@ class Companies(models.Model):
     pass2=models.CharField(max_length=10,default="")
     
 class Job_Profiles(models.Model):
-
     profile_name=models.CharField(max_length=100)
     company_id=models.ForeignKey("Companies",on_delete=models.CASCADE)
     job_info=models.TextField()
     salary=models.CharField(max_length=100)
-    condi_tion=models.CharField(max_length=100)
     no_of_vacancies=models.CharField(max_length=100)
+    education=models.CharField(max_length=100)
+    industry=models.CharField(max_length=100)
+    joblocation_address=models.CharField(max_length=100)
+    experience=models.CharField(max_length=100)
+    postdate=models.DateTimeField(default=datetime.now)
+    site_name=models.CharField(max_length=100,default='NaN')
 
+class industry(models.Model):
+    industry=models.CharField(max_length=100)
 
 
 class skills(models.Model):

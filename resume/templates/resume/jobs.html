@@ -99,11 +99,25 @@
                   {% endfor %}
                 </tbody>
               </table>
-    
-            
         </div>
     </section>
+    <section id="services" class="services section-bg ml-5 mr-5">
+        <h2 class="mt-2">Similar Job Recommendations for you :</h2>
 
+        <div class="container">
+            <div class="row mb-3 allprofiles" style="width:100% !important">
+                {% for job in recomm %}
+                <div class="col-lg-4 col-md-6 align-items-stretch mt-4 mt-md-0 mb-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bx bxl-digg"></i></div>
+                        <h4><a href="{% url 'job_info' job.id %}">{{ job.profile_name }}</a></h4>
+                        <p>By {{job.company_id.company_name}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>

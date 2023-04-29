@@ -1,5 +1,5 @@
 from email import message
-from Company.models import Job_Profiles, Companies,skills
+from Company.models import Job_Profiles, Companies,skills,industry
 from django.contrib import messages 
 
 from django.shortcuts import render, redirect, reverse
@@ -11,13 +11,24 @@ from django.http import HttpResponse,JsonResponse
 from Company.models import Companies,Job_Profiles,shortList
 from resume.models import Candidate,Course,Skill,Work_Experience,Projects
 from exams.models import ExamResult,Questions,Options,Answers,ExamDuration
-
+from docx import Document
+from docx.shared import Inches
+#..............ML.............#
+import pandas as pd
+# For performing text preprocessing
+from nltk.stem import PorterStemmer, LancasterStemmer, SnowballStemmer, WordNetLemmatizer
+from nltk.corpus import stopwords
+from string import punctuation
+import re 
+import joblib
+import pickle
 # Create your views here.
 
 def company_home(request):
     if not Candidate.objects.filter(username=request.user.username):
         return render(request,'company_dashboard.html')
     return render(request,'resume/candiHome.html')
+
 
 #company registration
 def company_registration(request):
@@ -53,8 +64,6 @@ def company_registration(request):
         u.save()
 
         return redirect('login')
-        
-
     return render(request,'companyregistrationPage.html')
 
 # def company_login(request):
@@ -75,12 +84,13 @@ def companyhome(request):
         comp=Companies.objects.get(companyuserid=user)
         # info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
         info=Job_Profiles.objects.filter(company_id=comp)
+        indus=industry.objects.all()
         applicants=0
         for i in info:
             temp=ExamResult.objects.filter(jobId=i.id)
             applicants+=len(temp)
         count=len(info)
-        return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants})
+        return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants,'indus':indus})
     return redirect('candihome')
     # return render(request,'resume/candiHome.html')
 
@@ -91,16 +101,30 @@ def ADD(request):
     if request.method=='POST':
         
         job_role=request.POST.get('jobrole')
+        industry=request.POST.get('industry')
         job_des=request.POST.get('jobdes')
         vacancies=request.POST.get('vacancies')
-        job_skills=request.POST.get('skills')
+        # job_skills=request.POST.get('skills')
+        salary=request.POST.get('salary')
+        experience=request.POST.get('experience')
+        req_qual=request.POST.get('req_qual')
+        location=request.POST.get('location')
+        
         keys=list((request.POST).keys())
         print(keys)
         company_id=Companies.objects.get(companyuserid=request.user.username)
         #job_profile_id=Job_Profiles.objects.get(id=i_d)
         
         print(company_id)
-        data=Job_Profiles(profile_name=job_role,company_id=company_id,job_info=job_des,no_of_vacancies=vacancies)
+        document=Document()
+        document.add_heading('Job Role:',1)
+        document.add_paragraph(job_role)
+        document.add_heading('Job Description:', level=1)
+        document.add_paragraph(job_des)
+        document.add_heading('No of Vacancies:',level=1)
+        document.add_paragraph(vacancies)       
+        document.add_heading('Required Skills:', level=1)
+        data=Job_Profiles(profile_name=job_role,company_id=company_id,job_info=job_des,salary=salary,no_of_vacancies=vacancies,education=req_qual,industry=industry,joblocation_address=location,experience=experience)
         data.save()
         id=data.id
         job_profile_id=Job_Profiles.objects.get(id=id)
@@ -110,10 +134,12 @@ def ADD(request):
             skill='skill'
             if skill in temp:
                 skill=request.POST.getlist(temp)[0]
+                document.add_paragraph(skill, style='List Number')
                 data2=skills(skills=skill,company_id=company_id,job_profile_id=job_profile_id)
                 data2.save()
 
-
+        filepath=r"C:\Users\ACER\Downloads\Recruitment_management2\Recruitment_management2\Company\ProfilesInfo\."+str(job_profile_id)+".docx"
+        document.save(filepath)
 
     
        

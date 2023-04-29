@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name='Recruitment_management2/templates/Recruitment_management2/company.html'),name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='Recruitment_management2/templates/Recruitment_management2/mainhome.html'), name='logout-redirect'),
     path('',home,name='home'),
+    path('check/',include('AdminPanel.urls')),
     path('candidate/',include('resume.urls')),
     path('exam/',include('exams.urls')),
     path('company/',include('Company.urls')),
