@@ -1,5 +1,5 @@
 from email import message
-from Company.models import Job_Profiles, Companies,skills
+from Company.models import Job_Profiles, Companies,skills,industry
 from django.contrib import messages 
 
 from django.shortcuts import render, redirect, reverse
@@ -11,7 +11,34 @@ from django.http import HttpResponse,JsonResponse
 from Company.models import Companies,Job_Profiles,shortList
 from resume.models import Candidate,Course,Skill,Work_Experience,Projects
 from exams.models import ExamResult,Questions,Options,Answers,ExamDuration
+from docx import Document
+import os
+from pathlib import Path
+from django.conf import settings
 
+
+my_file =os.path.join(settings.BASE_DIR,"Company\ProfilesInfo\.Job_Profiles object (1).docx")
+print(my_file)
+# my_file = os.path.join(base_dir,".Job_Profiles object (1).docx")
+
+
+
+from docx.shared import Inches
+#..............ML.............#
+import pandas as pd
+# For performing text preprocessing
+from nltk.stem import PorterStemmer, LancasterStemmer, SnowballStemmer, WordNetLemmatizer
+from nltk.corpus import stopwords
+from string import punctuation
+import re 
+import joblib
+import pickle
+import docx2txt
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# f=open(my_file,"r")
+# print(f.read())   
 # Create your views here.
 
 def company_home(request):
@@ -21,6 +48,7 @@ def company_home(request):
         return render(request,'company_dashboard.html')
     return render(request,'AdminPanel/company_dashboard.html')
  
+
 
 
 #company registration
@@ -57,8 +85,6 @@ def company_registration(request):
         u.save()
 
         return redirect('login')
-        
-
     return render(request,'companyregistrationPage.html')
 
 # def company_login(request):
@@ -79,12 +105,13 @@ def companyhome(request):
         comp=Companies.objects.get(companyuserid=user)
         # info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
         info=Job_Profiles.objects.filter(company_id=comp)
+        indus=industry.objects.all()
         applicants=0
         for i in info:
             temp=ExamResult.objects.filter(jobId=i.id)
             applicants+=len(temp)
         count=len(info)
-        return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants})
+        return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants,'indus':indus})
     return redirect('candihome')
     # return render(request,'resume/candiHome.html')
 
@@ -96,33 +123,59 @@ def ADD(request):
     if request.method=='POST':
         
         job_role=request.POST.get('jobrole')
+        industry=request.POST.get('industry')
         job_des=request.POST.get('jobdes')
         vacancies=request.POST.get('vacancies')
-        job_skills=request.POST.get('skills')
+        # job_skills=request.POST.get('skills')
+        salary=request.POST.get('salary')
+        experience=request.POST.get('experience')
+        req_qual=request.POST.get('req_qual')
+        location=request.POST.get('location')
+        
         keys=list((request.POST).keys())
         print(keys)
         company_id=Companies.objects.get(companyuserid=request.user.username)
         #job_profile_id=Job_Profiles.objects.get(id=i_d)
         
         print(company_id)
-        data=Job_Profiles(profile_name=job_role,company_id=company_id,job_info=job_des,no_of_vacancies=vacancies)
+        document=Document()
+        document.add_heading('Job Role:',1)
+        document.add_paragraph(job_role)
+        document.add_heading('Industry', level=1)
+        document.add_paragraph(industry)
+        document.add_heading('Job Description:', level=1)
+        document.add_paragraph(job_des)
+        document.add_heading('No of Vacancies:',level=1)
+        document.add_paragraph(vacancies)
+        document.add_heading('salary:',level=1)
+        document.add_paragraph(salary)
+        document.add_heading('Experience:',level=1)
+        document.add_paragraph(experience)
+        document.add_heading('Required Qualification',level=1)
+        document.add_paragraph(req_qual)
+
+        document.add_heading('Required Skills:', level=1)
+
+        data=Job_Profiles(profile_name=job_role,company_id=company_id,job_info=job_des,salary=salary,no_of_vacancies=vacancies,education=req_qual,industry=industry,joblocation_address=location,experience=experience)
         data.save()
         id=data.id
         job_profile_id=Job_Profiles.objects.get(id=id)
-        
+            
         for key in keys:
             temp=str(key)
             skill='skill'
             if skill in temp:
                 skill=request.POST.getlist(temp)[0]
+                document.add_paragraph(skill, style='List Number')
                 data2=skills(skills=skill,company_id=company_id,job_profile_id=job_profile_id)
                 data2.save()
+        
+        # print(PROJECT_ROOT)
 
-
-
-    
-       
-    
+        filepath=r"C:\Users\ACER\Downloads\Recruitment_management2\Recruitment_management2\Company\ProfilesInfo\."+str(job_profile_id)+".docx"
+        # path="Company\ProfilesInfo\."+str(id)+".docx"
+        # document.save(os.path.join(settings.BASE_DIR,path))
+        document.save(filepath)
         return redirect('comphome')
     else:
         info=Job_Profiles.objects.values('pk','profile_name','job_info','no_of_vacancies')
@@ -152,9 +205,29 @@ class JobDetailView(LoginRequiredMixin, DetailView):
         for t in Test:
             TotalScore+=t.score
         print(TotalScore)
+        sorts=[]
+        results=ExamResult.objects.filter(jobId=id).order_by('-totalScore')
+        # rfilepath=r""
+        job_description=docx2txt.process(my_file)
+        path="Company\ProfilesInfo\."+str(id)+".docx"
+        job_description = docx2txt.process(os.path.join(settings.BASE_DIR,path))
+        for i in results:
+            path1="resume\ResumeFiles\."+str(i.candidateId)+".docx"
+            resume = docx2txt.process(os.path.join(settings.BASE_DIR,path1))
+            # resume = docx2txt.process(rfilepath+'\resume\ResumeFiles\\'+ str(i.candidateId)+'.docx')
+            resume=docx2txt.process(my_file)
+
+            content = [job_description, resume]
+            cv = CountVectorizer()
+            count_matrix = cv.fit_transform(content)
+            mat = cosine_similarity(count_matrix)
+            sorts.append(tuple([i,str(mat[1][0]*100),i.totalScore]))
+        sorts.sort(key = lambda x: (x[2],x[1]),reverse=True)
+        print(sorts)
         # print(skills.objects.filter(job_profile_id=id))
         context['skills']=skills.objects.filter(job_profile_id=id)
-        context['testres']=ExamResult.objects.filter(jobId=id).order_by('-totalScore')
+        # context['testres']=ExamResult.objects.filter(jobId=id).order_by('-totalScore')
+        context['testres']=sorts
         context['num']=len(ExamResult.objects.filter(jobId=id))
         context['TotalScore']=TotalScore
         context['jobId']=id.id
