@@ -146,17 +146,17 @@
               {% for t in testres %}
               <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{t.candidateId.candidate_name}}</td>
-                <td>{{t.candidateId.phno}}</td>
-                <td>{{t.candidateId.candidate_email}}</td>
-                <td>{{t.totalScore}}</td>
-                <td><button data-id="{{t.candidateId.id}}" class="btn btn-info btn-sm resume">Resume</button></td>
+                <td>{{t.0.candidateId.candidate_name}}</td>
+                <td>{{t.0.candidateId.phno}}</td>
+                <td>{{t.0.candidateId.candidate_email}}</td>
+                <td>{{t.0.totalScore}}</td>
+                <td><button data-id="{{t.0.candidateId.id}}" class="btn btn-info btn-sm resume">Resume</button></td>
                 <!-- <h1>{{ t.candidateId.candi_id.all }}</h1> -->
                 <td class="">
-                    {% if t.candidateId.candi_id.all %}
-                        <a href=""><button type="submit" data-check="0" data-id="{{ t.candidateId.id }}" data-job="{{jobId}}" class="btn btn-success btn-sm accept {{ t.candidateId.id }}">UnAccept</button></a>
+                    {% if t.0.candidateId.candi_id.all %}
+                        <a href=""><button type="submit" data-check="0" data-id="{{ t.0.candidateId.id }}" data-job="{{jobId}}" class="btn btn-success btn-sm accept {{ t.0.candidateId.id }}">UnAccept</button></a>
                     {% else %}
-                        <a href=""><button type="submit" data-check="1" data-id="{{ t.candidateId.id }}" data-job="{{jobId}}" class="btn btn-success btn-sm accept {{ t.candidateId.id }}">Accept</button></a>
+                        <a href=""><button type="submit" data-check="1" data-id="{{ t.0.candidateId.id }}" data-job="{{jobId}}" class="btn btn-success btn-sm accept {{ t.0.candidateId.id }}">Accept</button></a>
                     {% endif %}
                 </td>
               </tr>
