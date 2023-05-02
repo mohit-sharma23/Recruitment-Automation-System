@@ -15,9 +15,13 @@ from exams.models import ExamResult,Questions,Options,Answers,ExamDuration
 # Create your views here.
 
 def company_home(request):
-    if not Candidate.objects.filter(username=request.user.username):
+    if Candidate.objects.filter(username=request.user.username).exists():
+        return render(request,'resume/candiHome.html')
+    elif Companies.objects.filter(username=request.user.username).exists():
         return render(request,'company_dashboard.html')
-    return render(request,'resume/candiHome.html')
+    return render(request,'AdminPanel/company_dashboard.html')
+ 
+
 
 #company registration
 def company_registration(request):
@@ -83,6 +87,7 @@ def companyhome(request):
         return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants})
     return redirect('candihome')
     # return render(request,'resume/candiHome.html')
+
 
 
 
@@ -202,3 +207,4 @@ def deltest(request,id):
     ExamDuration.objects.filter(jobId=id).delete()
     # questions.delete()
     return redirect('job_details', id)
+

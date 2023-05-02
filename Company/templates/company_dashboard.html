@@ -89,6 +89,7 @@
           </button>
         </div>
         <div class="modal-body">
+            
         <!-- ----------Form--------- -->
         <form action="add" method="post" id="myform">
             {% csrf_token %}
@@ -135,11 +136,14 @@
   </div>
 <!-- -------------END-MODAL------------------------ -->
 
+
+
         <div class="row">
             <div class="col-md-12 text-right">
             <button type="button" data-toggle="modal" data-target="#add" class="btn btn-success pr-0 mr-5 btn-sm">Add</button>
             </div>
         </div>
+       
        
     <div class="row">
         {% if company_info  %}
