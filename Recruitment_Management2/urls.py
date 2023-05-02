@@ -15,6 +15,7 @@ urlpatterns = [
     path('candidate/',include('resume.urls')),
     path('exam/',include('exams.urls')),
     path('company/',include('Company.urls')),
+    path('AdminPanel/',include('AdminPanel.urls')),
 
     
     # path('',include('candidates.urls')),
