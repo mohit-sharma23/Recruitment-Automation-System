@@ -15,10 +15,10 @@ from docx import Document
 import os
 from pathlib import Path
 from django.conf import settings
-
-
-my_file =os.path.join(settings.BASE_DIR,"Company\ProfilesInfo\.Job_Profiles object (1).docx")
-print(my_file)
+import csv
+import datetime
+# my_file =os.path.join(settings.BASE_DIR,"Company\ProfilesInfo\.Job_Profiles object (1).docx")
+# print(my_file)
 # my_file = os.path.join(base_dir,".Job_Profiles object (1).docx")
 
 
@@ -42,6 +42,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Create your views here.
 
 def company_home(request):
+    print(request.user)
     if Candidate.objects.filter(username=request.user.username).exists():
         return render(request,'resume/candiHome.html')
     elif Companies.objects.filter(username=request.user.username).exists():
@@ -101,7 +102,7 @@ def company_registration(request):
 def companyhome(request):
     print(request)
     user=request.user.username
-    if not Candidate.objects.filter(username=user):
+    if Companies.objects.filter(companyuserid=user).exists():
         comp=Companies.objects.get(companyuserid=user)
         # info=Job_Profiles.objects.values('id','profile_name','job_info','no_of_vacancies')
         info=Job_Profiles.objects.filter(company_id=comp)
@@ -112,7 +113,10 @@ def companyhome(request):
             applicants+=len(temp)
         count=len(info)
         return render(request,'company_dashboard.html',{'company_info':info,'count':count,'applicants':applicants,'indus':indus})
-    return redirect('candihome')
+    elif Candidate.objects.filter(username=user).exists():
+        return redirect('candihome')
+    else:
+        return render(request,'AdminPanel/admin.html')
     # return render(request,'resume/candiHome.html')
 
 
@@ -160,7 +164,7 @@ def ADD(request):
         data.save()
         id=data.id
         job_profile_id=Job_Profiles.objects.get(id=id)
-            
+        csvkills=""
         for key in keys:
             temp=str(key)
             skill='skill'
@@ -175,6 +179,12 @@ def ADD(request):
         filepath=r"C:\Users\ACER\Downloads\Recruitment_management2\Recruitment_management2\Company\ProfilesInfo\."+str(job_profile_id)+".docx"
         # path="Company\ProfilesInfo\."+str(id)+".docx"
         # document.save(os.path.join(settings.BASE_DIR,path))
+        data1=[request.user.username,req_qual,experience,industry,job_des,str(id),location,job_role,vacancies,salary,datetime.datetime.now,job_role,industry,str(id)]
+        path1="static\\alljob.csv"
+        file1=os.path.join(settings.BASE_DIR,path1)
+        with open(file1, 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(data1)
         document.save(filepath)
         return redirect('comphome')
     else:
@@ -208,14 +218,14 @@ class JobDetailView(LoginRequiredMixin, DetailView):
         sorts=[]
         results=ExamResult.objects.filter(jobId=id).order_by('-totalScore')
         # rfilepath=r""
-        job_description=docx2txt.process(my_file)
+        # job_description=docx2txt.process(my_file)
         path="Company\ProfilesInfo\."+str(id)+".docx"
         job_description = docx2txt.process(os.path.join(settings.BASE_DIR,path))
         for i in results:
             path1="resume\ResumeFiles\."+str(i.candidateId)+".docx"
             resume = docx2txt.process(os.path.join(settings.BASE_DIR,path1))
             # resume = docx2txt.process(rfilepath+'\resume\ResumeFiles\\'+ str(i.candidateId)+'.docx')
-            resume=docx2txt.process(my_file)
+            # resume=docx2txt.process(my_file)
 
             content = [job_description, resume]
             cv = CountVectorizer()

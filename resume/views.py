@@ -38,6 +38,7 @@ from sklearn.impute import SimpleImputer
 
 # Create your views here.
 
+
 def candi_regis(request):
     if request.method =="POST":
         print(request.POST)
@@ -274,202 +275,335 @@ def apply_job(request):
     user=request.user.username
     candidate=Candidate.objects.get(username=user)
     jobs=ExamResult.objects.filter(candidateId=candidate)
-    preprocess = Preprocess()
-    data = pd.read_csv('static/naukri_com-job_sample.csv')
-    # data=data.iloc[0:10000]
-    data.head()
-    data.isnull().sum()[data.isnull().sum()>0]
-    data.drop(['numberofpositions','site_name'],axis=1,inplace=True)
-    # to_fill = ['education', 'skills']
-    # for col in to_fill:
-    #     imputer = SimpleImputer(strategy='most_frequent')
-    #     # print(data[col])
-    #     # data[[col]]=imputer.fit(data[[col]])
-    #     data[col]=imputer.fit_transform(data[[col]])
-    data.drop(['jobid','uniq_id'],axis=1,inplace=True)
-    data = data[data['experience'] != 'Not Mentioned']
-    experience_lower = []
-    experience_upper = []
-    invalid = []
-    for idx, row in data.iterrows():
-        try:
-            text = re.sub('yrs', '', row['experience'])
-            splits = text.split('-')
-            experience_lower.append(int(splits[0]))
-            experience_upper.append(int(splits[1]))
-        except:
-            invalid.append(row['experience'])
-    data = data[~data['experience'].isin(invalid)]
-    data['experience_lower'] = data['experience'].apply(lambda x: int(x.split('-')[0]))
-    data['experience_upper'] = data['experience'].apply(lambda x: int(re.sub('yrs','', x.split('-')[1])))
+    # preprocess = Preprocess()
+    # data = pd.read_csv('static/naukri_com-job_sample.csv')
+    # # data=data.iloc[0:10000]
+    # data.head()
+    # data.isnull().sum()[data.isnull().sum()>0]
+    # data.drop(['numberofpositions','site_name'],axis=1,inplace=True)
+    # # to_fill = ['education', 'skills']
+    # # for col in to_fill:
+    # #     imputer = SimpleImputer(strategy='most_frequent')
+    # #     # print(data[col])
+    # #     # data[[col]]=imputer.fit(data[[col]])
+    # #     data[col]=imputer.fit_transform(data[[col]])
+    # data.drop(['jobid','uniq_id'],axis=1,inplace=True)
+    # data = data[data['experience'] != 'Not Mentioned']
+    # experience_lower = []
+    # experience_upper = []
+    # invalid = []
+    # for idx, row in data.iterrows():
+    #     try:
+    #         text = re.sub('yrs', '', row['experience'])
+    #         splits = text.split('-')
+    #         experience_lower.append(int(splits[0]))
+    #         experience_upper.append(int(splits[1]))
+    #     except:
+    #         invalid.append(row['experience'])
+    # data = data[~data['experience'].isin(invalid)]
+    # data['experience_lower'] = data['experience'].apply(lambda x: int(x.split('-')[0]))
+    # data['experience_upper'] = data['experience'].apply(lambda x: int(re.sub('yrs','', x.split('-')[1])))
 
-    data.drop(['experience'], axis=1, inplace=True)
-    data['postdate'] = data['postdate'].astype(str).apply(lambda x: x[:-5])
-    data['job_age']=datetime.datetime.today() - pd.to_datetime(data['postdate'])
-    data['job_age'] = data['job_age'].dt.days
-    replacements = {
-        'joblocation_address': {
-            r'(Bengaluru/Bangalore)': 'Bangalore',
-            r'Bengaluru': 'Bangalore',
-            r'Hyderabad / Secunderabad': 'Hyderabad',
-            r'Mumbai , Mumbai': 'Mumbai',
-            r'Noida': 'NCR',
-            r'Delhi': 'NCR',
-            r'Gurgaon': 'NCR', 
-            r'Delhi/NCR(National Capital Region)': 'NCR',
-            r'Delhi , Delhi': 'NCR',
-            r'Noida , Noida/Greater Noida': 'NCR',
-            r'Ghaziabad': 'NCR',
-            r'Delhi/NCR(National Capital Region) , Gurgaon': 'NCR',
-            r'NCR , NCR': 'NCR',
-            r'NCR/NCR(National Capital Region)': 'NCR',
-            r'NCR , NCR/Greater NCR': 'NCR',
-            r'NCR/NCR(National Capital Region) , NCR': 'NCR', 
-            r'NCR , NCR/NCR(National Capital Region)': 'NCR', 
-            r'Bangalore , Bangalore / Bangalore': 'Bangalore',
-            r'Bangalore , karnataka': 'Bangalore',
-            r'NCR/NCR(National Capital Region)': 'NCR',
-            r'NCR/Greater NCR': 'NCR',
-            r'NCR/NCR(National Capital Region) , NCR': 'NCR'
-        }
-    }
-    data.replace(replacements, regex=True, inplace=True)
-    data['industry'] = data['industry'].astype(str).apply(lambda x: x.split('/')[0])
-    data['industry'] = data['industry'].str.strip()
-    # source: https://www.kaggle.com/code/danala26/data-cleaning-naukri-com
-    # data['Education'] = data['education'].str.split(' ')
-    # data['Education'] = data['Education'].apply(lambda x: x[1] if len(x) > 1 else x[0])
+    # data.drop(['experience'], axis=1, inplace=True)
+    # data['postdate'] = data['postdate'].astype(str).apply(lambda x: x[:-5])
+    # data['job_age']=datetime.datetime.today() - pd.to_datetime(data['postdate'])
+    # data['job_age'] = data['job_age'].dt.days
+    # replacements = {
+    #     'joblocation_address': {
+    #         r'(Bengaluru/Bangalore)': 'Bangalore',
+    #         r'Bengaluru': 'Bangalore',
+    #         r'Hyderabad / Secunderabad': 'Hyderabad',
+    #         r'Mumbai , Mumbai': 'Mumbai',
+    #         r'Noida': 'NCR',
+    #         r'Delhi': 'NCR',
+    #         r'Gurgaon': 'NCR', 
+    #         r'Delhi/NCR(National Capital Region)': 'NCR',
+    #         r'Delhi , Delhi': 'NCR',
+    #         r'Noida , Noida/Greater Noida': 'NCR',
+    #         r'Ghaziabad': 'NCR',
+    #         r'Delhi/NCR(National Capital Region) , Gurgaon': 'NCR',
+    #         r'NCR , NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region)': 'NCR',
+    #         r'NCR , NCR/Greater NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region) , NCR': 'NCR', 
+    #         r'NCR , NCR/NCR(National Capital Region)': 'NCR', 
+    #         r'Bangalore , Bangalore / Bangalore': 'Bangalore',
+    #         r'Bangalore , karnataka': 'Bangalore',
+    #         r'NCR/NCR(National Capital Region)': 'NCR',
+    #         r'NCR/Greater NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region) , NCR': 'NCR'
+    #     }
+    # }
+    # data.replace(replacements, regex=True, inplace=True)
+    # data['industry'] = data['industry'].astype(str).apply(lambda x: x.split('/')[0])
+    # data['industry'] = data['industry'].str.strip()
+    # # source: https://www.kaggle.com/code/danala26/data-cleaning-naukri-com
+    # # data['Education'] = data['education'].str.split(' ')
+    # # data['Education'] = data['Education'].apply(lambda x: x[1] if len(x) > 1 else x[0])
 
-    # data['Education'] = data['Education'].replace(('B.Tech/B.E.','Graduation','Other','-','Not','B.Tech/B.E.,','Postgraduate',
-    #                                                'PG:CA','Diploma,','B.Com,','B.Pharma,','B.A,','BCA,','B.Sc,','MBA/PGDM','B.B.A,',
-    #                                               'PG:Other','Doctorate:Doctorate','Post'),
-    #                                               ('B.Tech','B.Tech','B.Tech','B.Tech','B.Tech','B.Tech','B.Tech',
-    #                                               'CA','Diploma','B.Com','B.Pharma','B.A','BCA','B.Sc','MBA','BBA',
-    #                                               'B.Tech','Doctorate','B.Tech'))
+    # # data['Education'] = data['Education'].replace(('B.Tech/B.E.','Graduation','Other','-','Not','B.Tech/B.E.,','Postgraduate',
+    # #                                                'PG:CA','Diploma,','B.Com,','B.Pharma,','B.A,','BCA,','B.Sc,','MBA/PGDM','B.B.A,',
+    # #                                               'PG:Other','Doctorate:Doctorate','Post'),
+    # #                                               ('B.Tech','B.Tech','B.Tech','B.Tech','B.Tech','B.Tech','B.Tech',
+    # #                                               'CA','Diploma','B.Com','B.Pharma','B.A','BCA','B.Sc','MBA','BBA',
+    # #                                               'B.Tech','Doctorate','B.Tech'))
 
-    # data['Skills'] = data['skills'].str.split(" - ")
-    # data['Skills'] = data['Skills'].apply(lambda x: x[1] if len(x) > 1 else x[0])
-    # Removing jobs which have less than 10 postings as they are very rare and affect model performance
-    majority_industries = data['industry'].value_counts()[data['industry'].value_counts()>=10].index
-    data = data[data['industry'].isin(majority_industries)]
-    data.isnull().sum()[data.isnull().sum()>0]
+    # # data['Skills'] = data['skills'].str.split(" - ")
+    # # data['Skills'] = data['Skills'].apply(lambda x: x[1] if len(x) > 1 else x[0])
+    # # Removing jobs which have less than 10 postings as they are very rare and affect model performance
+    # majority_industries = data['industry'].value_counts()[data['industry'].value_counts()>=10].index
+    # data = data[data['industry'].isin(majority_industries)]
+    # data.isnull().sum()[data.isnull().sum()>0]
 
-    # joblocation_imputer = SimpleImputer(strategy='most_frequent')
-    # data['joblocation_address'] = joblocation_imputer.fit_transform(data[['joblocation_address']])
-    # jobage_imputer = SimpleImputer(strategy='mean')
-    # data['job_age'] = jobage_imputer.fit_transform(data[['job_age']])
+    # # joblocation_imputer = SimpleImputer(strategy='most_frequent')
+    # # data['joblocation_address'] = joblocation_imputer.fit_transform(data[['joblocation_address']])
+    # # jobage_imputer = SimpleImputer(strategy='mean')
+    # # data['job_age'] = jobage_imputer.fit_transform(data[['job_age']])
 
-    preprocess.fit_transform(data['jobdescription'],data['industry'])
+    # preprocess.fit_transform(data['jobdescription'],data['industry'])
+    # # random_job = data.sample(n=1,random_state=1234)
+    # # # random_job=data2.iloc[0:1]
+    # # # data
+    # # random_job
+    # model2 = xgb.XGBClassifier()
+    # model2.load_model('static/b_model.json')
+    # # model2
+    # data = pd.read_csv('static/naukri_com-job_sample.csv')
+    # # data=data.iloc[0:10000]
     # random_job = data.sample(n=1,random_state=1234)
     # # random_job=data2.iloc[0:1]
     # # data
-    # random_job
-    model2 = xgb.XGBClassifier()
-    model2.load_model('static/new_model.json')
-    # model2
-    data = pd.read_csv('static/naukri_com-job_sample.csv')
+    # # random_job
+    # z=preprocess.transform(random_job)
+    # pred=model2.predict(z)
+    # # d=[24,24,24,24,24,24,24,24,24,24,24,24,24,24]
+    # decoded_pred = preprocess.encoder.inverse_transform(pred)[0]
+
+
+
+    # data = pd.read_csv('static/naukri_com-job_sample.csv')
     # data=data.iloc[0:10000]
-    random_job = data.sample(n=1,random_state=1234)
+    # preprocess=Preprocess()
+    # data.isnull().sum()[data.isnull().sum()>0]
+    # data.shape
+    # data.drop(['numberofpositions','site_name'],axis=1,inplace=True)
+    # data.isnull().sum()[data.isnull().sum()>0]
+    # data.isnull().sum()[data.isnull().sum()>0]
+    # data.drop(['jobid','uniq_id'],axis=1,inplace=True)
+    # data = data[data['experience'] != 'Not Mentioned']
+    # experience_lower = []
+    # experience_upper = []
+    # invalid = []
+    # for idx, row in data.iterrows():
+    #     try:
+    #         text = re.sub('yrs', '', row['experience'])
+    #         splits = text.split('-')
+    #         experience_lower.append(int(splits[0]))
+    #         experience_upper.append(int(splits[1]))
+    #     except:
+    #         invalid.append(row['experience'])
+    # data = data[~data['experience'].isin(invalid)]
+    # data['experience_lower'] = data['experience'].apply(lambda x: int(x.split('-')[0]))
+    # data['experience_upper'] = data['experience'].apply(lambda x: int(re.sub('yrs','', x.split('-')[1])))
+    # data.drop(['experience'], axis=1, inplace=True)
+    # data['postdate'] = data['postdate'].astype(str).apply(lambda x: x[:-5])
+    # data['job_age']=datetime.datetime.today() - pd.to_datetime(data['postdate'])
+    # data['job_age'] = data['job_age'].dt.days
+    # data['skills'].nunique()
+    # replacements = {
+    #     'joblocation_address': {
+    #         r'(Bengaluru/Bangalore)': 'Bangalore',
+    #         r'Bengaluru': 'Bangalore',
+    #         r'Hyderabad / Secunderabad': 'Hyderabad',
+    #         r'Mumbai , Mumbai': 'Mumbai',
+    #         r'Noida': 'NCR',
+    #         r'Delhi': 'NCR',
+    #         r'Gurgaon': 'NCR', 
+    #         r'Delhi/NCR(National Capital Region)': 'NCR',
+    #         r'Delhi , Delhi': 'NCR',
+    #         r'Noida , Noida/Greater Noida': 'NCR',
+    #         r'Ghaziabad': 'NCR',
+    #         r'Delhi/NCR(National Capital Region) , Gurgaon': 'NCR',
+    #         r'NCR , NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region)': 'NCR',
+    #         r'NCR , NCR/Greater NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region) , NCR': 'NCR', 
+    #         r'NCR , NCR/NCR(National Capital Region)': 'NCR', 
+    #         r'Bangalore , Bangalore / Bangalore': 'Bangalore',
+    #         r'Bangalore , karnataka': 'Bangalore',
+    #         r'NCR/NCR(National Capital Region)': 'NCR',
+    #         r'NCR/Greater NCR': 'NCR',
+    #         r'NCR/NCR(National Capital Region) , NCR': 'NCR'
+       
+    #     }
+    # }
+
+    # data.replace(replacements, regex=True, inplace=True)
+    # data['industry'] = data['industry'].astype(str).apply(lambda x: x.split('/')[0])
+    # data['industry'] = data['industry'].str.strip()
+    # majority_industries = data['industry'].value_counts()[data['industry'].value_counts()>=10].index
+    # data = data[data['industry'].isin(majority_industries)]
+    # data.isnull().sum()[data.isnull().sum()>0]
+    # data.isnull().sum()
+    # # Splitting the data into X and y 
+    # X = data['jobdescription'] # job description text for training model 
+    # y = data['industry'] # Industry in which the description belongs (used for recommendation purposes)
+    # test_size = int(len(X) * 0.1)
+    # # Split the data into 80%-10%-10% splits 
+    # # 80% - train set (used for training model)
+    # # 10% - validation set (used for hyperparameter tuning to improve model performance) 
+    # # 10% - test set (used for testing the model on completely unseen data before deployment)
+    # X_train,X_test, y_train, y_test = train_test_split(X,y, test_size = test_size, stratify=y)
+    # X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=test_size, 
+    #                                               stratify=y_train)
+    # print(Preprocess().preprocess(X_train.iloc[0]))
+    # X_train, y_train = preprocess.fit_transform(X_train,y_train)
+    # data = pd.read_csv('static/naukri_com-job_sample.csv')
+    # data=data.iloc[0:10000]
+    # random_job = data.sample(n=1,random_state=1234)
+    data1=pd.read_csv('static/alljob.csv')
+    model2 = xgb.XGBClassifier()
+    # model2.load_model('static/b_model.json')
+    recoms=Job_Profiles.objects.none()
+    # vector=pickle.load('vectorizer.pk')
+    
+    with open('static/vectorizer.pk', 'rb') as pickle_file:
+        content = pickle.load(pickle_file)
+    model2.load_model('static/u_model.json')
+    for i in jobs:
+        random_job=data1.loc[data1['uniq_id'] ==str(i.jobId)]
+        z=content.transform(random_job)
+        pred=model2.predict(z)
+        decoded_pred = content.encoder.inverse_transform(pred)[0]
+        recoms=recoms|Job_Profiles.objects.filter(industry=decoded_pred)
+    recom=[]
+    print(recoms)
+    for i in recoms:
+        b=True
+        for j in jobs:
+            print(i.id)
+            print(j.jobId)
+            if i==j.jobId:
+                b=False
+                continue
+        if b:
+            recom.append(i)
+        
     # random_job=data2.iloc[0:1]
     # data
     # random_job
-    z=preprocess.transform(random_job)
+    # preprocess.transform(random_job)
+    # model2 = xgb.XGBClassifier()
+    # model2.load_model('static/b_model.json')
+    # z=preprocess.transform(random_job)
     # pred=model2.predict(z)
-    d=[24,24,24,24,24,24,24,24,24,24,24,24,24,24]
-    decoded_pred = preprocess.encoder.inverse_transform(d)[0]
+    # decoded_pred = preprocess.encoder.inverse_transform(pred)[0]
+    # print(decoded_pred)
+
+
+
+
+
+
+
+
+
+
 
     # decoded_pred = preprocess.encoder.inverse_transform(pred)[0]
     # print(decoded_pred)
     # decoded_pred='IT-Software'
-    recomm=Job_Profiles.objects.filter(industry=decoded_pred)
+    # recomm=Job_Profiles.objects.filter(industry=decoded_pred)
     
     context={
         'jobs':jobs,
         'candidate':candidate,
-        'recomm':recomm
+        'recomm':recom
     }
     return render(request,'resume/jobs.html',context)
 
-class Preprocess:
-    def __init__(self,method='WordNetLemmatizer'):
-        # WordNetLemmatizer is recommended because it reduces the given word to the root word 
-        # by referring to the WordNet corpus unlike other stemming techniques which just 
-        # truncate the word by removing the suffix, which is why I have set it as default
-        self.method = method
-        self.stemmers = {
-            'PorterStemmer':PorterStemmer(),
-            'LancasterStemmer':LancasterStemmer(),
-            'SnowballStemmer':SnowballStemmer(language='english'),
-            'WordNetLemmatizer':WordNetLemmatizer()
-        }
-        self.stemmer = self.stemmers[self.method]
-        # Remove punctuation signs and stopwords for better results 
-        self.stopWords = list(punctuation) + list(stopwords.words('english'))
-        # Adding custom stopwords for better preprocessing, feel free to add more
-        self.moreStopWords = ['job','description','requirement','skill', 'qualification']
-        self.stopWords.extend(self.moreStopWords)
-        self.encoder = LabelEncoder()
-        # Using tf-idf vectorizer because it not only relies on the count but also the 
-        # number of documents it occurs in 
-        # tf * log(N/df), where tf = term frequency/count of words 
-        # N = total number of documents 
-        # df = document frequency (number of documents containing that word)
-        # Count vectorizer gets tricked by the term frequency but in tf-idf it does not happen
-        # eg - if the word occurs frequently in almost all documents,it may be a filler word 
-        # which was ignored in stopwords, so it can trick the count vectorizer,but in tf-idf
-        # N/df almost = 1, so log(N/df) will be almost 0 and hence the word will not be given 
-        # much importance which is desirable, hence we should use tfidf vectorizer instead of 
-        # count vectorizer 
-        self.vectorizer = TfidfVectorizer()
-        self.isFitted = False
-    def preprocess(self, message):
-        message = message.lower()
-        #Remove links 
-        message = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|'\
-                        '(?:%[0-9a-fA-F][0-9a-fA-F]))+','', message)
-        # Remove extra spaces 
-        message = re.sub(' +', ' ', message)
-        # Remove mentions 
-        message =re.sub("(@[A-Za-z0-9_]+)","", message)
-        # Remove Hashtags
-        message = re.sub('#[A-Za-z0-9_]+','', message)
-        # Remove all non alphanumeric characters 
-        message = re.sub("^[A-Za-z0-9_-]*$", "", message)
-        # Remove Emojis 
-        emoji_pattern = re.compile(
-            "["
-            u"\U0001F600-\U0001F64F"  # emoticons
-            u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-            u"\U0001F680-\U0001F6FF"  # transport & map symbols
-            u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-            u"\U00002702-\U000027B0"
-            u"\U000024C2-\U0001F251"
-            "]+",
-            flags=re.UNICODE,
-        )
-        message = emoji_pattern.sub('',message)
-        if self.method == 'WordNetLemmatizer':
-            message = ' '.join([self.stemmer.lemmatize(word) for word in message.split() if word not in self.moreStopWords])
-        else:
-            message = ' '.join([self.stemmer.stem(word) for word in message.split() if word not in self.moreStopWords])
-        return message 
-    def fit(self,X,y=None):
-        self.vectorizer.fit(X)
-        if y is not None:
-            self.encoder.fit(y)
-        self.isFitted=True
-    def transform(self, X, y=None):
-        self.fit(X)
-        if not self.isFitted:
-            raise NotImplementedError('Please fit first by calling the fit function')
-        X = self.vectorizer.transform(X)
-        if y is not None:
-            y = self.encoder.transform(y)
-            return X,y
-        else:
-            return X 
-    def fit_transform(self,X,y=None):
-        self.fit(X,y)
-        X,y = self.transform(X,y)
-        return X,y
+# class Preprocess:
+#     def __init__(self,method='WordNetLemmatizer'):
+#         # WordNetLemmatizer is recommended because it reduces the given word to the root word 
+#         # by referring to the WordNet corpus unlike other stemming techniques which just 
+#         # truncate the word by removing the suffix, which is why I have set it as default
+#         self.method = method
+#         self.stemmers = {
+#             'PorterStemmer':PorterStemmer(),
+#             'LancasterStemmer':LancasterStemmer(),
+#             'SnowballStemmer':SnowballStemmer(language='english'),
+#             'WordNetLemmatizer':WordNetLemmatizer()
+#         }
+#         self.stemmer = self.stemmers[self.method]
+#         # Remove punctuation signs and stopwords for better results 
+#         self.stopWords = list(punctuation) + list(stopwords.words('english'))
+#         # Adding custom stopwords for better preprocessing, feel free to add more
+#         self.moreStopWords = ['job','description','requirement','skill', 'qualification']
+#         self.stopWords.extend(self.moreStopWords)
+#         self.encoder = LabelEncoder()
+#         # Using tf-idf vectorizer because it not only relies on the count but also the 
+#         # number of documents it occurs in 
+#         # tf * log(N/df), where tf = term frequency/count of words 
+#         # N = total number of documents 
+#         # df = document frequency (number of documents containing that word)
+#         # Count vectorizer gets tricked by the term frequency but in tf-idf it does not happen
+#         # eg - if the word occurs frequently in almost all documents,it may be a filler word 
+#         # which was ignored in stopwords, so it can trick the count vectorizer,but in tf-idf
+#         # N/df almost = 1, so log(N/df) will be almost 0 and hence the word will not be given 
+#         # much importance which is desirable, hence we should use tfidf vectorizer instead of 
+#         # count vectorizer 
+#         self.vectorizer = TfidfVectorizer(max_features=34336)
+#         self.isFitted = False
+#     def preprocess(self, message):
+#         message = message.lower()
+#         #Remove links 
+#         message = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|'\
+#                         '(?:%[0-9a-fA-F][0-9a-fA-F]))+','', message)
+#         # Remove extra spaces 
+#         message = re.sub(' +', ' ', message)
+#         # Remove mentions 
+#         message =re.sub("(@[A-Za-z0-9_]+)","", message)
+#         # Remove Hashtags
+#         message = re.sub('#[A-Za-z0-9_]+','', message)
+#         # Remove all non alphanumeric characters 
+#         message = re.sub("^[A-Za-z0-9_-]*$", "", message)
+#         # Remove Emojis 
+#         emoji_pattern = re.compile(
+#             "["
+#             u"\U0001F600-\U0001F64F"  # emoticons
+#             u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+#             u"\U0001F680-\U0001F6FF"  # transport & map symbols
+#             u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+#             u"\U00002702-\U000027B0"
+#             u"\U000024C2-\U0001F251"
+#             "]+",
+#             flags=re.UNICODE,
+#         )
+#         message = emoji_pattern.sub('',message)
+#         if self.method == 'WordNetLemmatizer':
+#             message = ' '.join([self.stemmer.lemmatize(word) for word in message.split() if word not in self.moreStopWords])
+#         else:
+#             message = ' '.join([self.stemmer.stem(word) for word in message.split() if word not in self.moreStopWords])
+#         return message 
+#     def fit(self,X,y=None):
+#         self.vectorizer.fit(X)
+#         if y is not None:
+#             self.encoder.fit(y)
+#         self.isFitted=True
+#     def transform(self, X, y=None):
+#         self.fit(X)
+#         if not self.isFitted:
+#             raise NotImplementedError('Please fit first by calling the fit function')
+#         X = self.vectorizer.transform(X)
+#         if y is not None:
+#             y = self.encoder.transform(y)
+#             return X,y
+#         else:
+#             return X 
+#     def fit_transform(self,X,y=None):
+#         self.fit(X,y)
+#         X,y = self.transform(X,y)
+#         return X,y
     
+
+
