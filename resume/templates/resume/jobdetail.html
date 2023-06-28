@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/jobdetail.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jobdetail.css' %}">
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="job container">
+        <h1>{{job.profile_name}}</h1>
+        <h3> By {{ comp }}</h3>
+        <h4 class="title" style="font-weight:bold">Work Description: </h4>
+        <p class="mb-5">&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp {{ job.job_info }}</p>
+        <h4 >Skills required:</h4>
+        <p class="mb-4">
+            {% for i in s %}
+            <span>{{i.skills}}</span>&nbsp &nbsp
+            {% endfor %}
+            <h5 >Expected Salary:</h5><p class="mb-4">{{ job.salary }}</p>
+        <h4>Who Can Apply :</h4>
+        <div class="mb-4">
+            <p>Candidate with CGPA of 8 or above</p>
+            <p>Candidates with relevant Skills and Interest</p>
+        </div>
+
+        <p class="mb-4"><span style="font-weight:bold">No of Openings :</span>{{ job.no_of_vacancies }}</p>
+        {% if resume %}
+        <button class="btn btn-danger test btn-lg mb-4"><a href="{% url 'can-exam' job.id %}">Attempt Test</a></button>
+        {% else %}
+        <button class="btn btn-secondary test btn-lg mb-4">Attempt Test</button>
+        {% endif %}
+    </div>
+</body>
+</html>

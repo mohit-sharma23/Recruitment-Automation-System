@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?{% now "U" %}">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <style>
+       
+    </style>
+</head>
+<body>
+
+    <section id="menu">
+        <div class="logo">
+        <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
+        <h2>ARS</h2>
+    </div>
+
+    <div class="items">
+        <li><i class="fa-regular fa-chart-line"></i><a href="">Dashboard</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="{%url 'adminhome' %}">Company</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="{%url 'candihomepage' %}">Candidate</a></li>
+        <li><i class="fa-regular fa-chart-line"></i><a href="">Messages</a></li>
+
+        <li style="background-color:red; position: absolute;width:100%; bottom: 0;"><i class="fa-regular fa-chart-line"></i><a href="{% url 'logout-redirect' %}" style="color:white">LogOut</a></li>
+
+    </div>
+    </section>
+    <section class="section1">
+       
+
+        <div class="navigation">
+           
+
+            <div class="profile">
+                <i class="far fa-bell"></i>
+                <h4 class="mr-5">{{user.username}}</h4>
+            </div>
+        </div>
+       
+        <h3 class="i-name">Dashboard</h3>
+      <!-- -----------------Div-----------------  -->
+      
+<div class="container ml-1 p-5">
+        <h5 class="">List of Candidates that are present in the System</h5>
+</div>
+<div class="container">
+<div class="table w-75 mr-0">
+    <table  class="table table-bordered table-hover table-striped">
+        <thead class="pb-5">
+          <tr class="bg-dark text-white ">
+            <th style="width: 8px;" scope="col">No</th>
+            <th style="width: 50%;" scope="col">Candidate_Name</th>
+            <th style="width: 20%;" scope="col">Phone No</th>
+            <th style="width: 40%;" scope="col">Email</th>
+            <th style="width: 30%;" scope="col">College</th>
+            <th style="width: 30%;" scope="col">AVG_CGPA</th>
+            <th style="width: 20%;" scope="col">Details</th>
+            <th style="width: 20%;" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in candilist %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{i.candidate_name}}</td>
+            <td>{{i.phno}}</td>
+            <td>{{i.candidate_email}}</td>
+            <td>{{i.college}}</td>
+            <td>{{i.cgpa}}</td>
+            <td><button  class="btn btn-info btn-sm resume">View</button></td>
+            <!-- <h1>{{ t.candidateId.candi_id.all }}</h1> -->
+            <td class="">
+               
+                    <a onclick="return confirm('Are you sure you want to delete this Candidate?')" href="{% url 'delcandidate' i.id %}"><button type="submit"class="btn btn-danger btn-sm accept">Delete</button></a>
+               
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    
+</div>
+
+</div>
+       
+
+
+
+</section>
+    
+
+    
+
+ <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+ <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   
+ 
+    
+</body>
+</html>

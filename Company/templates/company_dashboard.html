@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,88 +6,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?{% now "U" %}">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    
 </head>
 <body>
 
     <section id="menu">
         <div class="logo">
         <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
-        <h2>Technobit</h2>
+        <h2>ARS</h2>
     </div>
 
     <div class="items">
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Dashboard</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Test</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Tables</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Forms</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Candidate</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Test</a></li>
-        <li><i class="fa-regular fa-chart-line"></i><a href="#">Settings</a></li>
-
+        <li><i class="fa-regular fa-chart-line"></i><a href="{% url 'comphome' %}">Dashboard</a></li>
+        <li style="background-color:red; position: absolute;width:100%; bottom: 0;"><i class="fa-regular fa-chart-line"></i><a href="{% url 'logout-redirect' %}" style="color:white">LogOut</a></li>
 
     </div>
     </section>
-    <section id="header">
-        <h1>{{user.username}}</h1>
+    <section class="section1">
+       
 
         <div class="navigation">
-            <div class="n1">
-                <div class="search">
-                    <i class="far fa-search"></i>
-                    <input type="text" placeholder="search">
-                    <button type="button" class="btn btn-success btn-sm">Search</button>
-                   
-                </div>
-                
-            </div>
+           
 
             <div class="profile">
                 <i class="far fa-bell"></i>
-                <img src="../static/img/portfolio/apple-touch-icon.png" alt="">
+                <h4 class="mr-5">{{user.username}}</h4>
+            </div>
+        </div>
+       
+        <h3 class="i-name">Dashboard</h3>
+
+        <div class="row">
+            <div class="boxs">
+                <div class="box-val">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>{{count}}</h3>
+                        <span>No Of Job Roles</span>
+                    </div>
+                </div>
+    
+    
+                <div class="box-val">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>{{applicants}}</h3>
+                        <span>No Of Applicants</span>
+                    </div>
+                </div>
+    
             </div>
         </div>
         
-        <h3 class="i-name">Dashboard</h3>
-
-        <div class="boxs">
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3>500</h3>
-                    <span>NO OF candidate</span>
-                </div>
-            </div>
-
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3></h3>
-                    <span>HI</span>
-                </div>
-            </div>
-
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3>500</h3>
-                    <span>NO oF Aplicants</span>
-                </div>
-            </div>
-
-            <div class="box-val">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3>Hello</h3>
-                    <span>HI</span>
-                </div>
-            </div>
-        </div>
 
         <div class="board">
             <table width="100%" ></table>
@@ -101,15 +83,24 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Job Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
+            
         <!-- ----------Form--------- -->
         <form action="add" method="post" id="myform">
             {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Industry</label>
+                <select class="exampleInputEmail1" name="industry">
+                    {% for i in indus %}
+                    <option value="{{i.industry}}">{{i.industry}}</option>
+                    {% endfor %}
+                </select>
+            </div >
             <div class="form-group">
               <label for="exampleInputEmail1">Job Role</label>
               <input type="text" name="jobrole" class="form-control" id="#"  placeholder="Please Enter Job Role">
@@ -119,12 +110,37 @@
                 <input type="text" name="jobdes" class="form-control" id=""  placeholder="Please Enter Job description">
             </div>
             <div class="form-group">
+                <label for="exampleInputEmail1">Skills Required</label>
+                <div class="disskill mb-2">
+                </div>
+                <input  type="text" class="form-control sk  " name="skill" id="skills" placeholder="Please Enter Reuired skills">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success btn-sm mt-3 addskill"> Add Skill</button>
+                <button type="button" class="btn btn-danger btn-sm mt-3  remskill"> Remove Skill</button>
+                <input type="hidden" id="total_skills" value="0">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Salary</label>
+                <input type="text" name="salary" class="form-control" id="#"  placeholder="Expected Salary">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Experience</label>
+                <input type="text" name="experience" class="form-control" id="#"  placeholder="Enter Required Experience if any">
+              </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Required Qualification</label>
+                <input type="text" name="req_qual" class="form-control" id="#"  placeholder="Please Enter Required Qualification">
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">No of Vacancies</label>
                 <input type="text" name="vacancies" class="form-control" id="#"  placeholder="Please Enter Vacancies">
             </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Location</label>
+                <input type="text" name="location" class="form-control" id="#"  placeholder="Enter Job Location">
+            </div>
             <input type="submit" class="btn btn-primary" value="Save changes">
-            
-
         </form>
 
         </div>
@@ -138,11 +154,14 @@
   </div>
 <!-- -------------END-MODAL------------------------ -->
 
+
+
         <div class="row">
             <div class="col-md-12 text-right">
-            <button type="button" data-toggle="modal" data-target="#add" class="btn btn-success mr-5 btn-sm">Add</button>
+            <button type="button" data-toggle="modal" data-target="#add" class="btn btn-success pr-0 mr-5 btn-sm">Add</button>
             </div>
         </div>
+       
        
     <div class="row">
         {% if company_info  %}
@@ -152,16 +171,16 @@
             <div class="card-body">
                 <div class="icon"><i class="bx bxl-redux"></i></div>
               <h5 class="card-title">{{i.profile_name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">{{i.job_info}}</p>
-              <a href="#" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
-              <a href=""  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
+              <h6 class="card-subtitle mb-2 text-muted">No Of Vacancies:</h6>
+              <p class="card-text">{{i.no_of_vacancies}}</p>
+              <a href="{% url 'job_details' i.id %}" class="card-link"><button type="button" class="btn btn-success btn-sm">View</button></a>
+              <a href="{% url 'delete' i.id %}"  class="card-link"><button type="button" id=""  class="btn btn-danger mr-5 btn-sm">Delete</button></a>
             </div>
         </div>
         {% endfor %}
 
         {% else  %}
-        <h2>data is not present</h2>
+        <h2 class="ml-3">data is not present</h2>
         {% endif %}
 
 
@@ -179,7 +198,45 @@
  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
- 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   
+ <script>
+    let skill=0;
+    var skills;
+      $('.addskill').on('click',addskill);
+      $('.remskill').on('click',remskill);
+
+      
+
+
+function addskill(e){
+    e.preventDefault();
+    skill+=1;
+    // var new_qn_no = parseInt($('#total_qn').val()) + 1;
+    var new_skill_no=parseInt($('#total_skills').val())+1;
+    var sld=$('.sk').val()
+    skills += ","+ sld
+    var new_input=`<button class=" sbutton_${skill}  btn btn-light skill mt-3 ml-3 " style="position:relative ;margin-right:1rem !important" name="skill_${skill}" value="{sld}">${sld}</button>\
+    <input class='shidden_${skill}' type="hidden" name="skill_${skill}" value="${sld}">`
+    $('.disskill').append(new_input);
+    $('#total_skills').val(new_skill_no);
+    console.log(skill);
+}    
+
+function  remskill(e){
+    e.preventDefault();
+    var last_skill_no=$('#total_skills').val();
+    if(last_skill_no>=1){
+        $(`.sbutton_${skill}`).remove();
+        $(`.shidden_${skill}`).remove();
+    }
+    skill--;
+    var new_skill_no=parseInt($('#total_skills').val()-1);
+    $('#total_skills').val(new_skill_no);
+
+}   
+
+ </script>
     
 </body>
 </html>

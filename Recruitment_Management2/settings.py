@@ -9,6 +9,16 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+"""
+for email sending
+"""
+from . info import *
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = EMAIL_PORT
+
 
 from pathlib import Path
 import os
@@ -37,10 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'candidates',
     'tests',
     'exams',
+    'resume',
     'Company',
+    'AdminPanel',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Recruitment_Management2.wsgi.application'
-
+APPEND_SLASH=False
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -120,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -132,5 +144,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 LOGIN_REDIRECT_URL = 'comphome'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'login/'
+
+LOGOUT_REDIRECT_URL = ''
+LOGOUT_URL=''
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -9,13 +9,7 @@ font-family: 'Poppins',sans-serif;
 }
 
 body {
-    width: 100%;
     background: #f5f5f5;
-    display: flex;
-    /* overflow: hidden; */
-
-    
-    
 }
 
  #menu{
@@ -57,7 +51,6 @@ body {
     transition: 0.3s ease;
  }
 
- /* hover effect  */
 
  #menu .items li:hover {
 
@@ -74,13 +67,63 @@ body {
     color: #F3F4F6;
  }
 
-/* other part css */
 
 #header{
-    width: calc(100% - 300px);
-    margin-left: 300px;
-    position: relative;
+    margin-left: 30px;
+    margin-right: 1100px;
+    border:3px solid white;
+    border-radius: 30px;
+    /* position: relative; */
 }
+.section1{
+    margin-left: 300px;
+    border:3px solid white;
+    border-radius: 30px;
+}
+
+.section1 .navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding-top: 15px;
+    border-bottom: 3px solid;
+}
+.section1 .navigation .search{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1px solid #d7dbe6;
+    border-radius: 4px;
+}
+.section1 .navigation .search i{
+margin-right: 14px;
+}
+.section1 .navigation .search input {
+border: none;
+outline: none;
+font-size: 14px;
+}
+.section1 .navigation .profile{
+    margin-left: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.section1 .navigation .profile i{
+    margin-right: 20px;
+    font-size: 19px;
+    font-weight: 400px;
+}
+.section1 .navigation .profile img{
+    width: 32px;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
 
 #header .navigation{
     display: flex;
@@ -107,6 +150,7 @@ outline: none;
 font-size: 14px;
 }
 #header .navigation .profile{
+    margin-left: 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -123,12 +167,12 @@ font-size: 14px;
 }
 .i-name{
     color: #444a53;
-    padding: 30px 30px 0 30px;
+    padding: 30px 0px 0 30px;
     font-size: 24px;
     font-weight: 700;
 }
 .boxs{
-    padding: 30px 30px 0 30px;
+    padding: 30px 0px 0 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -155,3 +199,91 @@ align-items: center;
 body::-webkit-scrollbar{
     display: none;
 }
+
+.hide{
+    display: none;
+}
+
+
+
+.con{
+    background-color:white;
+    border: 3px grey solid;
+    border-radius: 10px;
+    margin-left: 28%;
+    /* height: 40rem; */
+    width: 50rem !important;
+    height:max-content;
+    padding-bottom: 20px;
+    position: absolute;
+
+}
+.hue{
+    position: absolute;
+}
+.heading{
+    font-size: 20px;
+    font-weight: bold;
+}
+.skill-name{
+    margin-bottom: 5px;
+}
+.left{
+    border-right: 3px solid black
+}
+.comp-name{
+    font-weight:500;
+}
+.dis{
+    display:none;
+}
+
+
+
+.section2{
+    margin-left: 300px;
+    border:3px solid white;
+    border-radius: 30px;
+}
+
+.section2 .navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding-top: 15px;
+    border-bottom: 3px solid;
+}
+.section2 .navigation .search{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1px solid #d7dbe6;
+    border-radius: 4px;
+}
+.section2 .navigation .search i{
+margin-right: 14px;
+}
+.section2 .navigation .search input {
+border: none;
+outline: none;
+font-size: 14px;
+}
+.section2 .navigation .profile{
+    margin-left: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.section2 .navigation .profile i{
+    margin-right: 20px;
+    font-size: 19px;
+    font-weight: 400px;
+}
+.section2 .navigation .profile img{
+    width: 32px;
+    height: 100%;
+    border-radius: 50%;
+}
+

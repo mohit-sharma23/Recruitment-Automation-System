@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/5cbbc86232.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/resume.css' %}?{% now "U" %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <script src="/static/js/resumejs.js"></script>
+    <title>Register Yourself</title>
+</head>
+<body>
+    <div class="container form--trial">
+        <!-- <div class="heading">
+            
+            <button class="personal" onclick="call()">Personal Data</button>   &nbsp;&nbsp;
+            <button class="educational" onclick="call1() ">Educational Details</button>   &nbsp;&nbsp;
+            <button class="skills" onclick="call2()">Skills</button>   &nbsp;&nbsp;
+            <button class="work" onclick="call3()">Work Experience</button>   &nbsp;&nbsp;
+            
+        </div> -->
+
+       <form method ="post">
+            {%csrf_token%}
+           
+            <h4>Add Work Experience :</h4>
+                    
+            <div class="work form-content-perosonal" id="exp">
+
+            </div>
+            <button class="btn btn-warning mt-2 addexp"style="margin: left 5px !important;">Add Experience</button>
+            <button class="btn btn-info mt-2 remexp"style="margin: left 5px !important;">Remove Experience</button>
+
+            <input type="hidden" id="total_exp" value="0">
+
+            <h4>Add Course :</h4>
+            <div class="course form-content-perosonal" id="course">
+                
+            </div>
+            <button class="btn btn-warning mt-2 addcourse"style="margin: left 5px !important;">Add Course</button>
+            <button class="btn btn-info mt-2 remcourse"style="margin: left 5px !important;">Remove Course</button>
+
+            <input type="hidden" id="total_course" value="0">
+
+            <h4>Add Projects if any:</h4>
+            <div class="prj form-content-perosonal" id="prj">
+                
+            </div>
+            <button class="btn btn-warning mt-2 addprj"style="margin: left 5px !important;">Add Project</button>
+            <button class="btn btn-info mt-2 remprj"style="margin: left 5px !important;">Remove Project</button>
+
+            <input type="hidden" id="total_prj" value="0">
+
+            <h4 class="mt-2">Add Your Skill :</h4>
+
+           <div class="form-content-perosonal" id="personal">
+                <!-- <label for="skills">Add Your Skills : </label> -->
+                <div class="disskill">
+
+                </div>
+                <select class="sk" name="skill" id="skills">
+                    {% for s in skills %}
+                    <option value="{{s.skills}}">{{s.skills}}</option>
+                    {% endfor %}
+
+                </select>
+                
+                
+                <!-- <div>
+                    
+                    <label for="start year">From </label>
+                    <select name="start" id="start">
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2021</option>
+                        <option value="2023">2023</option>
+                        <option value="Javascript">present</option>  
+                    </select>
+                    <label for="start year">To </label>
+                    <select name="end" id="end">
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2021</option>
+                        <option value="2023">2023</option>
+                        <option value="Javascript">present</option>  
+                    </select>
+                </div> -->
+            <!-- </div> -->
+            
+            <div >
+                <button type="button" class="btn btn-danger mt-3 addskill"> Add Skill</button>
+                <button type="button" class="btn btn-danger mt-3 remskill"> Remove Skill</button>
+                <input type="hidden" id="total_skills" value="0">
+            </div>
+            <button class=" btn btn-success mt-3" type="submit button m-10" class="btn btn-dark">Submit</button>              
+        </div>
+  
+
+
+
+        </form>
+    
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   
+    <script>
+  
+          $('.addskill').on('click',addskill);
+            $('.removeqn').on('click',removeqn);
+            $('.addexp').on('click',addexp);
+            $('.addcourse').on('click',addcourse);
+            $('.addprj').on('click',addprj);
+            $('.remexp').on('click',remexp);
+            $('.remcourse').on('click',remcourse);
+            $('.remprj').on('click',remprj);
+            $('.remskill').on('click',remskill);
+
+            let opt_no=0;
+            let qn_no=0;
+            let exp=0;
+            let course=0;
+            let prj=0;
+            let skill=0;
+            var skills;
+function addexp(e){
+    e.preventDefault();
+    exp+=1;
+    var new_exp_no=parseInt($('#total_exp').val())+1;
+    var new_input=`<label class='Nlabel_${exp}' for="Company">${new_exp_no}: Enter Company Name: </label>\
+                    <input class='Ninput_${exp}' type="text" name="comp_${exp}">\
+                    <label class='Blabel_${exp}'for="workdetails">Brief Your work: </label>\
+                    <input class='Binput_${exp}'type="textarea exp" name="comp_${exp}" id="workdetails">\
+                    <label class='Ilabel_${exp}'class="mt-2"for="intern">Was it an Internship (Yes/No):</label>\
+                    <select class='Iinput_${exp}'name="comp_${exp}"class="mb-2" id="intern">\
+                        <option value="Yes">Yes</option>\
+                        <option value="No">No</option>\
+                    </select>`
+    $('.work').append(new_input);
+    $('#total_exp').val(new_exp_no);
+}
+function addcourse(e){
+    e.preventDefault();
+    course+=1;
+    var new_course_no=parseInt($('#total_course').val())+1;
+    var new_input=`<label class='Nclabel_${course}' for="Company">${new_course_no}: Course Name : </label>\
+                    <input class='Ncinput_${course}'type="text" name="course_${course}">\
+                    <label class='Pclabel_${course}'for="course">Platform :</label>\
+                    <input class='Pcinput_${course}'type="text" name="course_${course}" id="course">`
+    $('.course').append(new_input);
+    $('#total_course').val(new_course_no);
+}
+function addprj(e){
+    e.preventDefault();
+    prj+=1;
+    var new_prj_no=parseInt($('#total_prj').val())+1;
+    var new_input=`<label class='Prlabel_${prj}' for="prjname">${new_prj_no}: Enter name of Project :</label>\
+                <input class='Prinput_${prj}'type="text" name="prj_${prj}">\
+                <input class='Lnkinput_${prj}'type="text" name="prj_${prj}" placeholder="Link if any">\
+                <label class='DPrjlabel_${prj}'for="project" >Describe ur work in short:</label>\
+                <input class='DPrjinput_${prj}'type="textarea" name="prj_${prj}"id="project">`
+    $('.prj').append(new_input);
+    $('#total_prj').val(new_prj_no)
+}
+function addskill(e){
+    e.preventDefault();
+    skill+=1;
+    qn_no+=1;
+    opt_no=0;
+    // var new_qn_no = parseInt($('#total_qn').val()) + 1;
+    var new_skill_no=parseInt($('#total_skills').val())+1;
+    var sld=$('.sk').val()
+    skills += ","+ sld
+    var new_input=`<button class=" sbutton_${skill} qn_no_${qn_no} btn btn-light skill mt-3 ml-3 " style="position:relative ;margin-right:1rem !important" name="skill_${skill}" value="{sld}">${sld}</button>\
+    <input class='shidden_${skill}' type="hidden" name="skill_${skill}" value="${sld}">`
+    $('.disskill').append(new_input);
+    $('#total_skills').val(new_skill_no);
+}
+
+function remexp(e){
+    e.preventDefault();
+    var last_exp_no=$('#total_exp').val();
+    console.log(exp);
+    if(last_exp_no>=1){
+        $(`.Nlabel_${exp}`).remove();
+        $(`.Ninput_${exp}`).remove();
+        $(`.Blabel_${exp}`).remove();
+        $(`.Binput_${exp}`).remove();
+        $(`.Ilabel_${exp}`).remove();
+        $(`.Iinput_${exp}`).remove();
+        qn_no--;
+        var new_exp_no=parseInt($('#total_exp').val());
+        new_exp_no-=1;
+        $('#total_exp').val(new_exp_no);
+
+    }
+}
+function remcourse(e){
+    e.preventDefault();
+    var last_course_no=$('#total_course').val();
+    console.log(course);
+    if(last_course_no>=1){
+        $(`.Nclabel_${course}`).remove();
+        $(`.Ncinput_${course}`).remove();
+        $(`.Pclabel_${course}`).remove();
+        $(`.Pcinput_${course}`).remove();
+        course-=1;
+        var new_course_no=parseInt($('#total_course').val())-1;
+        $('#total_course').val(new_course_no);
+
+    }
+
+}
+function remprj(e){
+    e.preventDefault()
+    var last_prj_no=$('#total_prj').val();
+    console.log(prj);
+    if(last_prj_no>=1){
+        $(`.Prlabel_${prj}`).remove();
+        $(`.Prinput_${prj}`).remove();
+        $(`.Lnkinput_${prj}`).remove();
+        $(`.DPrjlabel_${prj}`).remove();
+        $(`.DPrjinput_${prj}`).remove();
+        prj--;
+        var new_prj_no=parseInt($('#total_prj').val())-1;
+        $('#total_prj').val(new_course_no);
+    }
+}
+
+function remskill(e){
+    e.preventDefault();
+    var last_skill_no=$('#total_skills').val();
+    if(last_skill_no>=1){
+        $(`.sbutton_${skill}`).remove();
+        $(`.shidden_${skill}`).remove();
+    }
+    skill--;
+    var new_skill_no=parseInt($('#total_skills').val()-1);
+    $('#total_skills').val(new_skill_no);
+}
+function removeqn(e){
+    e.preventDefault();
+    var last_qn = $('#total_qn').val();
+    if (last_qn > 1) {
+        console.log(qn_no)
+        $(`.qn_no_${qn_no}`).remove();
+        qn_no--;
+    //   $('#new_qn' + last_qn).remove();
+    //   $('#new_op' + last_qn).remove();
+    //   $('#adop' + last_qn).remove();
+    //   $('#remop' + last_qn).remove();
+    //   $('#total_qn').val(last_qn - 1);
+    }
+}
+function remove(e) {
+    e.preventDefault();
+    var last_chq_no = $('#total_chq').val()-1;
+    if (last_chq_no > 1) {
+        $(`.qn_no_${opt_no}`).remove();
+    }
+}
+
+</script>
+</body>
+</html>
